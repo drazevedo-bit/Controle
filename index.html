@@ -1,60 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Controle Financeiro Motorista</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f3f4f6;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
+            color: #111827;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
         }
 
         h1 {
             text-align: center;
-            color: #111827;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 0;
         }
 
         .card {
             background: white;
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 14px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
         }
 
         label {
             display: block;
-            margin-top: 10px;
-            margin-bottom: 5px;
             font-weight: bold;
+            margin-top: 12px;
+            margin-bottom: 5px;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
             border-radius: 8px;
+
+            font-size: 16px;
         }
 
         button {
             width: 100%;
-            padding: 12px;
+
+            padding: 13px;
+
             margin-top: 15px;
+
             border: none;
             border-radius: 8px;
+
             background: #2563eb;
             color: white;
+
             font-size: 16px;
+            font-weight: bold;
+
             cursor: pointer;
         }
 
@@ -62,35 +86,122 @@
             background: #1d4ed8;
         }
 
-        .resumo {
+
+        /* CONFIGURAÇÕES */
+
+        .config-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
-        .resumo div {
+
+        /* PERÍODO DA SEMANA */
+
+        .periodo {
+            background: #e0e7ff;
+
             padding: 15px;
-            border-radius: 10px;
+
             text-align: center;
-            background: #e5e7eb;
+
+            border-radius: 10px;
+
+            font-size: 18px;
+            font-weight: bold;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* RESUMO */
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .resumo-card {
+            background: #f9fafb;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .titulo-resumo {
+            font-size: 14px;
+            color: #6b7280;
         }
 
         .valor {
+            margin-top: 6px;
+
             font-size: 24px;
             font-weight: bold;
-            margin-top: 5px;
         }
 
-        .ganho {
-            color: green;
+        .verde {
+            color: #16a34a;
         }
 
-        .gasto {
-            color: red;
+        .vermelho {
+            color: #dc2626;
         }
 
-        .saldo {
+        .azul {
             color: #2563eb;
+        }
+
+        .laranja {
+            color: #ea580c;
+        }
+
+
+        /* META */
+
+        .meta-box {
+            margin-top: 20px;
+        }
+
+        .barra-fundo {
+            height: 20px;
+
+            background: #e5e7eb;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .barra-progresso {
+            height: 100%;
+
+            width: 0%;
+
+            background: #22c55e;
+
+            transition: width 0.4s;
+        }
+
+        .texto-meta {
+            text-align: center;
+
+            margin-top: 10px;
+
+            font-weight: bold;
+        }
+
+
+        /* TABELA */
+
+        .tabela-container {
+            overflow-x: auto;
         }
 
         table {
@@ -98,245 +209,1037 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
-            border-bottom: 1px solid #ddd;
+
+            border-bottom: 1px solid #e5e7eb;
+
             text-align: left;
+
+            white-space: nowrap;
         }
 
+        th {
+            background: #f9fafb;
+        }
+
+        .botao-excluir {
+            width: auto;
+
+            padding: 7px 10px;
+
+            margin: 0;
+
+            background: #dc2626;
+
+            font-size: 13px;
+        }
+
+        .botao-excluir:hover {
+            background: #b91c1c;
+        }
+
+
+        /* CELULAR */
+
         @media (max-width: 600px) {
+
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+
             .resumo {
                 grid-template-columns: 1fr;
             }
+
+            h1 {
+                font-size: 25px;
+            }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <h1>Controle Financeiro</h1>
+    <h1>🚗 Controle Financeiro</h1>
+
+
+    <!-- CONFIGURAÇÕES -->
 
     <div class="card">
 
-        <h2>Novo lançamento</h2>
+        <h2>⚙️ Configurações</h2>
 
-        <label>Data</label>
-        <input type="date" id="data">
+        <div class="config-grid">
 
-        <label>Tipo</label>
-        <select id="tipo">
-            <option value="ganho">Ganho</option>
-            <option value="gasto">Gasto</option>
-        </select>
+            <div>
 
-        <label>Categoria</label>
-        <select id="categoria">
-            <option>Uber</option>
-            <option>99</option>
-            <option>Corrida particular</option>
-            <option>Combustível</option>
-            <option>Aluguel do carro</option>
-            <option>Lavagem</option>
-            <option>Pedágio</option>
-            <option>Alimentação</option>
-            <option>Outros</option>
-        </select>
+                <label>
+                    Aluguel semanal do carro
+                </label>
 
-        <label>Valor</label>
-        <input type="number" id="valor" placeholder="Ex: 150.00" step="0.01">
+                <input
+                    type="number"
+                    id="aluguelSemanal"
+                    placeholder="Ex: 800.00"
+                    step="0.01">
 
-        <button onclick="adicionarLancamento()">
-            Adicionar
+            </div>
+
+
+            <div>
+
+                <label>
+                    Meta líquida semanal
+                </label>
+
+                <input
+                    type="number"
+                    id="metaSemanal"
+                    placeholder="Ex: 1500.00"
+                    step="0.01">
+
+            </div>
+
+        </div>
+
+        <button onclick="salvarConfiguracoes()">
+            Salvar configurações
         </button>
 
     </div>
 
+
+    <!-- SEMANA -->
+
     <div class="card">
 
-        <h2>Resumo</h2>
+        <h2>📅 Semana atual</h2>
+
+        <div
+            class="periodo"
+            id="periodoSemana">
+        </div>
+
 
         <div class="resumo">
 
-            <div>
-                Ganhos
-                <div class="valor ganho" id="totalGanhos">
-                    R$ 0,00
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Ganhos
                 </div>
+
+                <div
+                    class="valor verde"
+                    id="totalGanhos">
+
+                    R$ 0,00
+
+                </div>
+
             </div>
 
-            <div>
-                Gastos
-                <div class="valor gasto" id="totalGastos">
-                    R$ 0,00
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Gastos lançados
                 </div>
+
+                <div
+                    class="valor vermelho"
+                    id="totalGastos">
+
+                    R$ 0,00
+
+                </div>
+
             </div>
 
-            <div>
-                Saldo líquido
-                <div class="valor saldo" id="saldoLiquido">
-                    R$ 0,00
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Aluguel semanal
                 </div>
+
+                <div
+                    class="valor vermelho"
+                    id="aluguelResumo">
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Líquido da semana
+                </div>
+
+                <div
+                    class="valor azul"
+                    id="saldoLiquido">
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- META -->
+
+        <div class="meta-box">
+
+            <h3>
+                🎯 Meta semanal
+            </h3>
+
+            <div class="barra-fundo">
+
+                <div
+                    class="barra-progresso"
+                    id="barraProgresso">
+                </div>
+
+            </div>
+
+            <div
+                class="texto-meta"
+                id="textoMeta">
+
+                Defina sua meta semanal.
+
             </div>
 
         </div>
 
     </div>
 
+
+    <!-- NOVO LANÇAMENTO -->
+
     <div class="card">
 
-        <h2>Lançamentos</h2>
+        <h2>➕ Novo lançamento</h2>
 
-        <table>
 
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Dia</th>
-                    <th>Categoria</th>
-                    <th>Tipo</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
+        <label>
+            Data
+        </label>
 
-            <tbody id="listaLancamentos">
-            </tbody>
+        <input
+            type="date"
+            id="data">
 
-        </table>
+
+        <label>
+            Tipo
+        </label>
+
+        <select id="tipo">
+
+            <option value="ganho">
+                Ganho
+            </option>
+
+            <option value="gasto">
+                Gasto
+            </option>
+
+        </select>
+
+
+        <label>
+            Categoria
+        </label>
+
+        <select id="categoria">
+
+            <option>Uber</option>
+
+            <option>99</option>
+
+            <option>
+                Corrida particular
+            </option>
+
+            <option>
+                Combustível
+            </option>
+
+            <option>
+                Lavagem
+            </option>
+
+            <option>
+                Pedágio
+            </option>
+
+            <option>
+                Alimentação
+            </option>
+
+            <option>
+                Estacionamento
+            </option>
+
+            <option>
+                Outros
+            </option>
+
+        </select>
+
+
+        <label>
+            Valor
+        </label>
+
+        <input
+            type="number"
+            id="valor"
+            placeholder="Ex: 150.00"
+            step="0.01">
+
+
+        <button onclick="adicionarLancamento()">
+
+            Adicionar lançamento
+
+        </button>
 
     </div>
 
+
+    <!-- HISTÓRICO -->
+
+    <div class="card">
+
+        <h2>📋 Histórico</h2>
+
+        <div class="tabela-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Data</th>
+
+                        <th>Dia</th>
+
+                        <th>Categoria</th>
+
+                        <th>Tipo</th>
+
+                        <th>Valor</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="listaLancamentos">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
 </div>
+
 
 <script>
 
-    let lancamentos = [];
 
-    function adicionarLancamento() {
+    /* ==============================
+       DADOS
+    ============================== */
 
-        const data = document.getElementById("data").value;
-        const tipo = document.getElementById("tipo").value;
-        const categoria = document.getElementById("categoria").value;
-        const valor = parseFloat(document.getElementById("valor").value);
 
-        if (!data || !valor) {
-            alert("Preencha a data e o valor.");
-            return;
-        }
+    let lancamentos =
+        JSON.parse(
+            localStorage.getItem("lancamentos")
+        ) || [];
 
-        const dataObjeto = new Date(data + "T12:00:00");
 
-        const diaSemana = dataObjeto.toLocaleDateString(
-            "pt-BR",
-            {
-                weekday: "long"
-            }
+    let aluguelSemanal =
+        Number(
+            localStorage.getItem("aluguelSemanal")
+        ) || 0;
+
+
+    let metaSemanal =
+        Number(
+            localStorage.getItem("metaSemanal")
+        ) || 0;
+
+
+
+    /* ==============================
+       CONFIGURAÇÕES
+    ============================== */
+
+
+    function carregarConfiguracoes() {
+
+        document.getElementById(
+            "aluguelSemanal"
+        ).value =
+            aluguelSemanal || "";
+
+
+        document.getElementById(
+            "metaSemanal"
+        ).value =
+            metaSemanal || "";
+
+    }
+
+
+
+    function salvarConfiguracoes() {
+
+        aluguelSemanal =
+            Number(
+                document.getElementById(
+                    "aluguelSemanal"
+                ).value
+            );
+
+
+        metaSemanal =
+            Number(
+                document.getElementById(
+                    "metaSemanal"
+                ).value
+            );
+
+
+        localStorage.setItem(
+            "aluguelSemanal",
+            aluguelSemanal
         );
 
-        const lancamento = {
-            data,
-            diaSemana,
-            tipo,
-            categoria,
-            valor
-        };
 
-        lancamentos.push(lancamento);
+        localStorage.setItem(
+            "metaSemanal",
+            metaSemanal
+        );
+
 
         atualizarTela();
 
-        document.getElementById("valor").value = "";
+
+        alert(
+            "Configurações salvas!"
+        );
+
     }
+
+
+
+    /* ==============================
+       ADICIONAR LANÇAMENTO
+    ============================== */
+
+
+    function adicionarLancamento() {
+
+        const data =
+            document.getElementById(
+                "data"
+            ).value;
+
+
+        const tipo =
+            document.getElementById(
+                "tipo"
+            ).value;
+
+
+        const categoria =
+            document.getElementById(
+                "categoria"
+            ).value;
+
+
+        const valor =
+            Number(
+                document.getElementById(
+                    "valor"
+                ).value
+            );
+
+
+        if (!data || valor <= 0) {
+
+            alert(
+                "Informe uma data e um valor válido."
+            );
+
+            return;
+
+        }
+
+
+        const dataObjeto =
+            criarDataLocal(data);
+
+
+        const diaSemana =
+            dataObjeto.toLocaleDateString(
+                "pt-BR",
+                {
+                    weekday: "long"
+                }
+            );
+
+
+        const lancamento = {
+
+            id: Date.now(),
+
+            data: data,
+
+            diaSemana: diaSemana,
+
+            tipo: tipo,
+
+            categoria: categoria,
+
+            valor: valor
+
+        };
+
+
+        lancamentos.push(
+            lancamento
+        );
+
+
+        salvarLancamentos();
+
+
+        document.getElementById(
+            "valor"
+        ).value = "";
+
+
+        atualizarTela();
+
+    }
+
+
+
+    /* ==============================
+       EXCLUIR
+    ============================== */
+
+
+    function excluirLancamento(id) {
+
+        const confirmar =
+            confirm(
+                "Deseja excluir este lançamento?"
+            );
+
+
+        if (!confirmar) {
+            return;
+        }
+
+
+        lancamentos =
+            lancamentos.filter(
+                item =>
+                    item.id !== id
+            );
+
+
+        salvarLancamentos();
+
+
+        atualizarTela();
+
+    }
+
+
+
+    /* ==============================
+       SALVAR NO NAVEGADOR
+    ============================== */
+
+
+    function salvarLancamentos() {
+
+        localStorage.setItem(
+
+            "lancamentos",
+
+            JSON.stringify(
+                lancamentos
+            )
+
+        );
+
+    }
+
+
+
+    /* ==============================
+       SEMANA
+       Segunda até domingo
+    ============================== */
+
+
+    function obterInicioSemana(data) {
+
+        const novaData =
+            new Date(data);
+
+
+        const dia =
+            novaData.getDay();
+
+
+        const diferenca =
+            dia === 0
+            ? -6
+            : 1 - dia;
+
+
+        novaData.setDate(
+            novaData.getDate()
+            + diferenca
+        );
+
+
+        novaData.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        return novaData;
+
+    }
+
+
+
+    function obterFimSemana(data) {
+
+        const inicio =
+            obterInicioSemana(data);
+
+
+        const fim =
+            new Date(inicio);
+
+
+        fim.setDate(
+            inicio.getDate() + 6
+        );
+
+
+        fim.setHours(
+            23,
+            59,
+            59,
+            999
+        );
+
+
+        return fim;
+
+    }
+
+
+
+    /* ==============================
+       ATUALIZAR TELA
+    ============================== */
 
 
     function atualizarTela() {
 
-        const lista = document.getElementById("listaLancamentos");
+        const hoje =
+            new Date();
 
-        lista.innerHTML = "";
+
+        const inicioSemana =
+            obterInicioSemana(
+                hoje
+            );
+
+
+        const fimSemana =
+            obterFimSemana(
+                hoje
+            );
+
+
+        document.getElementById(
+            "periodoSemana"
+        ).textContent =
+
+            formatarDataObjeto(
+                inicioSemana
+            )
+
+            + " até "
+
+            + formatarDataObjeto(
+                fimSemana
+            );
+
 
         let totalGanhos = 0;
+
         let totalGastos = 0;
 
-        lancamentos.forEach(function(item) {
-
-            if (item.tipo === "ganho") {
-                totalGanhos += item.valor;
-            } else {
-                totalGastos += item.valor;
-            }
-
-            const linha = document.createElement("tr");
-
-            linha.innerHTML = `
-                <td>${formatarData(item.data)}</td>
-                <td>${item.diaSemana}</td>
-                <td>${item.categoria}</td>
-                <td>${item.tipo}</td>
-                <td>${formatarDinheiro(item.valor)}</td>
-            `;
-
-            lista.appendChild(linha);
-        });
-
-        const saldo = totalGanhos - totalGastos;
-
-        document.getElementById("totalGanhos").textContent =
-            formatarDinheiro(totalGanhos);
-
-        document.getElementById("totalGastos").textContent =
-            formatarDinheiro(totalGastos);
-
-        document.getElementById("saldoLiquido").textContent =
-            formatarDinheiro(saldo);
-    }
 
 
-    function formatarDinheiro(valor) {
+        lancamentos.forEach(
+            function(item) {
 
-        return valor.toLocaleString(
-            "pt-BR",
-            {
-                style: "currency",
-                currency: "BRL"
+                const dataItem =
+                    criarDataLocal(
+                        item.data
+                    );
+
+
+                if (
+                    dataItem >= inicioSemana &&
+                    dataItem <= fimSemana
+                ) {
+
+                    if (
+                        item.tipo ===
+                        "ganho"
+                    ) {
+
+                        totalGanhos +=
+                            item.valor;
+
+                    }
+
+                    else {
+
+                        totalGastos +=
+                            item.valor;
+
+                    }
+
+                }
+
             }
         );
 
+
+
+        const saldoLiquido =
+
+            totalGanhos
+
+            - totalGastos
+
+            - aluguelSemanal;
+
+
+
+        document.getElementById(
+            "totalGanhos"
+        ).textContent =
+            formatarDinheiro(
+                totalGanhos
+            );
+
+
+        document.getElementById(
+            "totalGastos"
+        ).textContent =
+            formatarDinheiro(
+                totalGastos
+            );
+
+
+        document.getElementById(
+            "aluguelResumo"
+        ).textContent =
+            formatarDinheiro(
+                aluguelSemanal
+            );
+
+
+        const saldoElemento =
+            document.getElementById(
+                "saldoLiquido"
+            );
+
+
+        saldoElemento.textContent =
+            formatarDinheiro(
+                saldoLiquido
+            );
+
+
+        if (
+            saldoLiquido < 0
+        ) {
+
+            saldoElemento.className =
+                "valor vermelho";
+
+        }
+
+        else {
+
+            saldoElemento.className =
+                "valor verde";
+
+        }
+
+
+        atualizarMeta(
+            saldoLiquido
+        );
+
+
+        atualizarHistorico();
+
     }
 
 
-    function formatarData(data) {
 
-        const partes = data.split("-");
+    /* ==============================
+       META
+    ============================== */
 
-        return partes[2] + "/" + partes[1] + "/" + partes[0];
+
+    function atualizarMeta(
+        saldoLiquido
+    ) {
+
+
+        const texto =
+            document.getElementById(
+                "textoMeta"
+            );
+
+
+        const barra =
+            document.getElementById(
+                "barraProgresso"
+            );
+
+
+        if (
+            metaSemanal <= 0
+        ) {
+
+            texto.textContent =
+                "Defina sua meta semanal.";
+
+            barra.style.width =
+                "0%";
+
+            return;
+
+        }
+
+
+
+        let percentual =
+
+            (
+                saldoLiquido
+                /
+                metaSemanal
+            )
+
+            * 100;
+
+
+
+        if (
+            percentual < 0
+        ) {
+
+            percentual = 0;
+
+        }
+
+
+        if (
+            percentual > 100
+        ) {
+
+            percentual = 100;
+
+        }
+
+
+
+        barra.style.width =
+            percentual + "%";
+
+
+
+        if (
+            saldoLiquido >=
+            metaSemanal
+        ) {
+
+            const excedente =
+
+                saldoLiquido
+                -
+                metaSemanal;
+
+
+            texto.textContent =
+
+                "🎉 Meta atingida! Você passou "
+
+                + formatarDinheiro(
+                    excedente
+                )
+
+                + " da meta.";
+
+        }
+
+        else {
+
+            const falta =
+
+                metaSemanal
+                -
+                saldoLiquido;
+
+
+            texto.textContent =
+
+                "Faltam "
+
+                + formatarDinheiro(
+                    falta
+                )
+
+                + " para atingir a meta.";
+
+        }
 
     }
 
 
-    function colocarDataHoje() {
 
-        const hoje = new Date();
+    /* ==============================
+       HISTÓRICO
+    ============================== */
 
-        const ano = hoje.getFullYear();
 
-        const mes = String(
-            hoje.getMonth() + 1
-        ).padStart(2, "0");
+    function atualizarHistorico() {
 
-        const dia = String(
-            hoje.getDate()
-        ).padStart(2, "0");
+        const lista =
+            document.getElementById(
+                "listaLancamentos"
+            );
 
-        document.getElementById("data").value =
-            `${ano}-${mes}-${dia}`;
 
-    }
+        lista.innerHTML = "";
 
-    colocarDataHoje();
 
-</script>
+        const ordenados =
 
-</body>
-</html>
+            [...lancamentos]
+            .sort(
+
+                (a, b) =>
+
+                    new Date(
+                        b.data
+                    )
+
+                    -
+
+                    new Date(
+                        a.data
+                    )
+
+            );
+
+
+        ordenados.forEach(
+            function(item) {
+
+
+                const linha =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                linha.innerHTML = `
+
+                    <td>
+                        ${formatarData(item.data)}
+                    </td>
+
+                    <td>
+                        ${item.diaSemana}
+                    </td>
+
+                    <td>
+                        ${item.categoria}
+                    </td>
+
+                    <td>
+                        ${
+                            item.tipo === "ganho"
+                            ? "Ganho"
+                            : "Gasto"
+                        }
+                    </td>
+
+                    <td>
+                        ${formatarDinheiro(item.valor)}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="botao-excluir"
+                            onclick="excluirLancamento(${item.id})">
+
+                            Excluir
+
+                        </button>
+
+            </td>
