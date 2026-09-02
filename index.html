@@ -1213,7 +1213,7 @@
                     </td>
 
                     <td>
-                        ${item.diaSemana}
+                         ${item.diaSemana || obterDiaSemana(item.data)}
                     </td>
 
                     <td>
@@ -1324,7 +1324,22 @@
     }
 
 
+       function obterDiaSemana(data) {
 
+        if (!data) {
+        return "-";
+        }
+
+    const dataObjeto = criarDataLocal(data);
+
+    return dataObjeto.toLocaleDateString(
+        "pt-BR",
+        {
+            weekday: "long"
+        }
+    );
+
+}
     function criarDataLocal(
         data
     ) {
