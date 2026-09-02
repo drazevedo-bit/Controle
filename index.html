@@ -1242,4 +1242,172 @@
 
                         </button>
 
-            </td>
+                    </td>
+
+                `;
+
+
+                lista.appendChild(
+                    linha
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* ==============================
+       FORMATAÇÕES
+    ============================== */
+
+
+    function formatarDinheiro(
+        valor
+    ) {
+
+        return valor.toLocaleString(
+            "pt-BR",
+            {
+
+                style:
+                    "currency",
+
+                currency:
+                    "BRL"
+
+            }
+        );
+
+    }
+
+
+
+    function formatarData(
+        data
+    ) {
+
+        const partes =
+            data.split("-");
+
+
+        return
+
+            partes[2]
+            + "/"
+            + partes[1]
+            + "/"
+            + partes[0];
+
+    }
+
+
+
+    function formatarDataObjeto(
+        data
+    ) {
+
+        return data.toLocaleDateString(
+            "pt-BR",
+            {
+
+                day:
+                    "2-digit",
+
+                month:
+                    "2-digit"
+
+            }
+        );
+
+    }
+
+
+
+    function criarDataLocal(
+        data
+    ) {
+
+        const partes =
+            data.split("-");
+
+
+        return new Date(
+
+            Number(partes[0]),
+
+            Number(partes[1]) - 1,
+
+            Number(partes[2]),
+
+            12,
+            0,
+            0
+
+        );
+
+    }
+
+
+
+    /* ==============================
+       DATA DE HOJE
+    ============================== */
+
+
+    function colocarDataHoje() {
+
+        const hoje =
+            new Date();
+
+
+        const ano =
+            hoje.getFullYear();
+
+
+        const mes =
+            String(
+                hoje.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const dia =
+            String(
+                hoje.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        document.getElementById(
+            "data"
+        ).value =
+
+            `${ano}-${mes}-${dia}`;
+
+    }
+
+
+
+    /* ==============================
+       INICIAR
+    ============================== */
+
+
+    carregarConfiguracoes();
+
+    colocarDataHoje();
+
+    atualizarTela();
+
+
+</script>
+
+</body>
+
+</html>
