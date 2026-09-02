@@ -2,514 +2,1357 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Controle Financeiro Motorista</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
         }
 
+
         body {
+
             font-family: Arial, sans-serif;
+
             background: #f3f4f6;
+
             margin: 0;
+
             padding: 15px;
+
             color: #111827;
+
         }
+
 
         .container {
+
             max-width: 900px;
+
             margin: auto;
+
         }
+
 
         h1 {
+
             text-align: center;
+
             margin-bottom: 25px;
+
         }
+
 
         h2 {
+
             margin-top: 0;
+
         }
+
 
         .card {
+
             background: white;
+
             padding: 20px;
+
             border-radius: 14px;
+
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.08);
+
         }
 
+
         label {
+
             display: block;
+
             font-weight: bold;
+
             margin-top: 12px;
+
             margin-bottom: 5px;
+
         }
+
 
         input,
         select {
+
             width: 100%;
+
             padding: 12px;
+
             border: 1px solid #d1d5db;
+
             border-radius: 8px;
+
             font-size: 16px;
+
         }
+
 
         button {
+
             width: 100%;
+
             padding: 13px;
+
             margin-top: 15px;
+
             border: none;
+
             border-radius: 8px;
+
             background: #2563eb;
+
             color: white;
+
             font-size: 16px;
+
             font-weight: bold;
+
             cursor: pointer;
+
         }
+
 
         button:hover {
+
             background: #1d4ed8;
+
         }
+
 
         .config-grid {
+
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 15px;
+
         }
+
 
         .periodo {
+
             background: #e0e7ff;
+
             padding: 15px;
+
             text-align: center;
+
             border-radius: 10px;
+
             font-size: 18px;
+
             font-weight: bold;
+
             margin-bottom: 20px;
+
         }
+
 
         .resumo {
+
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
             gap: 12px;
+
         }
+
 
         .resumo-card {
+
             background: #f9fafb;
+
             padding: 15px;
+
             border-radius: 10px;
+
             text-align: center;
+
             border: 1px solid #e5e7eb;
+
         }
+
 
         .titulo-resumo {
+
             font-size: 14px;
+
             color: #6b7280;
+
         }
+
 
         .valor {
+
             margin-top: 6px;
+
             font-size: 24px;
+
             font-weight: bold;
+
         }
+
 
         .verde {
+
             color: #16a34a;
+
         }
+
 
         .vermelho {
+
             color: #dc2626;
+
         }
+
 
         .azul {
+
             color: #2563eb;
+
         }
+
+
+        .laranja {
+
+            color: #ea580c;
+
+        }
+
 
         .meta-box {
+
             margin-top: 20px;
+
         }
+
 
         .barra-fundo {
+
             height: 20px;
+
             background: #e5e7eb;
+
             border-radius: 10px;
+
             overflow: hidden;
+
         }
+
 
         .barra-progresso {
+
             height: 100%;
+
             width: 0%;
+
             background: #22c55e;
+
             transition: width 0.4s;
+
         }
+
+
+        .barra-km {
+
+            height: 100%;
+
+            width: 0%;
+
+            background: #2563eb;
+
+            transition: width 0.4s;
+
+        }
+
 
         .texto-meta {
+
             text-align: center;
+
             margin-top: 10px;
+
             font-weight: bold;
+
         }
+
+
+        .km-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .km-resumo {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .alerta {
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            display: none;
+
+        }
+
+
+        .alerta-amarelo {
+
+            display: block;
+
+            background: #fef3c7;
+
+            color: #92400e;
+
+        }
+
+
+        .alerta-vermelho {
+
+            display: block;
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+        }
+
+
+        .alerta-verde {
+
+            display: block;
+
+            background: #dcfce7;
+
+            color: #166534;
+
+        }
+
 
         .tabela-container {
+
             overflow-x: auto;
+
         }
 
+
         table {
+
             width: 100%;
+
             border-collapse: collapse;
+
         }
+
 
         th,
         td {
+
             padding: 10px;
-            border-bottom: 1px solid #e5e7eb;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
             text-align: left;
+
             white-space: nowrap;
+
         }
+
 
         th {
+
             background: #f9fafb;
+
         }
+
 
         .botao-excluir {
+
             width: auto;
+
             padding: 7px 10px;
+
             margin: 0;
+
             background: #dc2626;
+
             font-size: 13px;
+
         }
+
 
         .botao-excluir:hover {
+
             background: #b91c1c;
+
         }
 
+
         @media (max-width: 600px) {
+
             .config-grid {
+
                 grid-template-columns: 1fr;
+
             }
+
 
             .resumo {
+
                 grid-template-columns: 1fr;
+
             }
+
+
+            .km-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .km-resumo {
+
+                grid-template-columns: 1fr;
+
+            }
+
 
             h1 {
+
                 font-size: 25px;
+
             }
 
+
             table {
+
                 font-size: 13px;
+
             }
+
 
             th,
             td {
+
                 padding: 8px 6px;
+
             }
 
+
             .botao-excluir {
+
                 padding: 6px 8px;
+
                 font-size: 12px;
+
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <h1>🚗 Controle Financeiro</h1>
+
+    <h1>
+        🚗 Controle Financeiro
+    </h1>
+
+
+
+    <!-- CONFIGURAÇÕES -->
+
 
     <div class="card">
-        <h2>⚙️ Configurações</h2>
+
+        <h2>
+            ⚙️ Configurações
+        </h2>
+
 
         <div class="config-grid">
 
+
             <div>
-                <label>Aluguel semanal do carro</label>
+
+                <label>
+                    Aluguel semanal
+                </label>
 
                 <input
                     type="number"
                     id="aluguelSemanal"
                     placeholder="Ex: 800.00"
-                    step="0.01"
-                >
+                    step="0.01">
+
             </div>
 
+
             <div>
-                <label>Meta líquida semanal</label>
+
+                <label>
+                    Meta líquida semanal
+                </label>
 
                 <input
                     type="number"
                     id="metaSemanal"
                     placeholder="Ex: 1500.00"
-                    step="0.01"
-                >
+                    step="0.01">
+
             </div>
+
+
+            <div>
+
+                <label>
+                    Franquia semanal de KM
+                </label>
+
+                <input
+                    type="number"
+                    id="franquiaKm"
+                    value="1500"
+                    step="1">
+
+            </div>
+
 
         </div>
 
-        <button onclick="salvarConfiguracoes()">
+
+        <button
+            onclick="salvarConfiguracoes()">
+
             Salvar configurações
+
         </button>
+
     </div>
 
-    <div class="card">
-        <h2>📅 Semana atual</h2>
 
-        <div class="periodo" id="periodoSemana"></div>
+
+    <!-- SEMANA ATUAL -->
+
+
+    <div class="card">
+
+
+        <h2>
+            📅 Semana atual
+        </h2>
+
+
+        <div
+            class="periodo"
+            id="periodoSemana">
+        </div>
+
 
         <div class="resumo">
 
-            <div class="resumo-card">
-                <div class="titulo-resumo">Ganhos</div>
-                <div class="valor verde" id="totalGanhos">
-                    R$ 0,00
-                </div>
-            </div>
 
             <div class="resumo-card">
-                <div class="titulo-resumo">Gastos lançados</div>
-                <div class="valor vermelho" id="totalGastos">
-                    R$ 0,00
+
+                <div class="titulo-resumo">
+                    Ganhos
                 </div>
+
+                <div
+                    class="valor verde"
+                    id="totalGanhos">
+
+                    R$ 0,00
+
+                </div>
+
             </div>
 
-            <div class="resumo-card">
-                <div class="titulo-resumo">Aluguel semanal</div>
-                <div class="valor vermelho" id="aluguelResumo">
-                    R$ 0,00
-                </div>
-            </div>
 
             <div class="resumo-card">
-                <div class="titulo-resumo">Líquido da semana</div>
-                <div class="valor azul" id="saldoLiquido">
-                    R$ 0,00
+
+                <div class="titulo-resumo">
+                    Gastos lançados
                 </div>
+
+                <div
+                    class="valor vermelho"
+                    id="totalGastos">
+
+                    R$ 0,00
+
+                </div>
+
             </div>
+
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Aluguel semanal
+                </div>
+
+                <div
+                    class="valor vermelho"
+                    id="aluguelResumo">
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Líquido da semana
+                </div>
+
+                <div
+                    class="valor azul"
+                    id="saldoLiquido">
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
 
         </div>
+
+
 
         <div class="meta-box">
-            <h3>🎯 Meta semanal</h3>
+
+
+            <h3>
+                🎯 Meta semanal
+            </h3>
+
 
             <div class="barra-fundo">
-                <div class="barra-progresso" id="barraProgresso"></div>
+
+                <div
+                    class="barra-progresso"
+                    id="barraProgresso">
+                </div>
+
             </div>
 
-            <div class="texto-meta" id="textoMeta">
+
+            <div
+                class="texto-meta"
+                id="textoMeta">
+
                 Defina sua meta semanal.
+
             </div>
+
+
         </div>
+
+
     </div>
 
+
+
+    <!-- QUILOMETRAGEM -->
+
+
     <div class="card">
-        <h2>➕ Novo lançamento</h2>
 
-        <label>Data</label>
-        <input type="date" id="data">
 
-        <label>Tipo</label>
+        <h2>
+            🛣️ Controle de quilometragem
+        </h2>
+
+
+        <div class="km-grid">
+
+
+            <div>
+
+                <label>
+                    Odômetro no início da semana
+                </label>
+
+                <input
+                    type="number"
+                    id="odometroInicial"
+                    placeholder="Ex: 52430"
+                    step="1">
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Odômetro atual
+                </label>
+
+                <input
+                    type="number"
+                    id="odometroAtual"
+                    placeholder="Ex: 53170"
+                    step="1">
+
+            </div>
+
+
+        </div>
+
+
+        <button onclick="salvarQuilometragem()">
+
+            Atualizar quilometragem
+
+        </button>
+
+
+
+        <div class="km-resumo">
+
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    KM utilizados
+                </div>
+
+                <div
+                    class="valor azul"
+                    id="kmUtilizados">
+
+                    0 km
+
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    KM restantes
+                </div>
+
+                <div
+                    class="valor verde"
+                    id="kmRestantes">
+
+                    1.500 km
+
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Franquia utilizada
+                </div>
+
+                <div
+                    class="valor"
+                    id="percentualKm">
+
+                    0%
+
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <div class="titulo-resumo">
+                    Ganho bruto por KM
+                </div>
+
+                <div
+                    class="valor verde"
+                    id="ganhoPorKm">
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="meta-box">
+
+
+            <h3>
+                🚘 Uso da franquia
+            </h3>
+
+
+            <div class="barra-fundo">
+
+                <div
+                    class="barra-km"
+                    id="barraKm">
+                </div>
+
+            </div>
+
+
+            <div
+                class="texto-meta"
+                id="textoKm">
+
+                0 de 1.500 km utilizados
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            class="alerta"
+            id="alertaKm">
+        </div>
+
+
+    </div>
+
+
+
+    <!-- NOVO LANÇAMENTO -->
+
+
+    <div class="card">
+
+
+        <h2>
+            ➕ Novo lançamento
+        </h2>
+
+
+        <label>
+            Data
+        </label>
+
+        <input
+            type="date"
+            id="data">
+
+
+        <label>
+            Tipo
+        </label>
+
         <select id="tipo">
-            <option value="ganho">Ganho</option>
-            <option value="gasto">Gasto</option>
+
+            <option value="ganho">
+                Ganho
+            </option>
+
+            <option value="gasto">
+                Gasto
+            </option>
+
         </select>
 
-        <label>Categoria</label>
+
+        <label>
+            Categoria
+        </label>
+
         <select id="categoria">
-            <option>Uber</option>
-            <option>99</option>
-            <option>Corrida particular</option>
-            <option>Combustível</option>
-            <option>Lavagem</option>
-            <option>Pedágio</option>
-            <option>Alimentação</option>
-            <option>Estacionamento</option>
-            <option>Outros</option>
+
+            <option>
+                Uber
+            </option>
+
+            <option>
+                99
+            </option>
+
+            <option>
+                Corrida particular
+            </option>
+
+            <option>
+                Combustível
+            </option>
+
+            <option>
+                Lavagem
+            </option>
+
+            <option>
+                Pedágio
+            </option>
+
+            <option>
+                Alimentação
+            </option>
+
+            <option>
+                Estacionamento
+            </option>
+
+            <option>
+                Outros
+            </option>
+
         </select>
 
-        <label>Valor</label>
+
+        <label>
+            Valor
+        </label>
+
         <input
             type="number"
             id="valor"
             placeholder="Ex: 150.00"
-            step="0.01"
-        >
+            step="0.01">
 
-        <button onclick="adicionarLancamento()">
+
+        <button
+            onclick="adicionarLancamento()">
+
             Adicionar lançamento
+
         </button>
+
+
     </div>
 
+
+
+    <!-- HISTÓRICO -->
+
+
     <div class="card">
-        <h2>📋 Histórico</h2>
+
+
+        <h2>
+            📋 Histórico
+        </h2>
+
 
         <div class="tabela-container">
 
+
             <table>
 
+
                 <thead>
+
                     <tr>
+
                         <th>Data</th>
+
                         <th>Dia</th>
+
                         <th>Categoria</th>
+
                         <th>Tipo</th>
+
                         <th>Valor</th>
+
                         <th></th>
+
                     </tr>
+
                 </thead>
 
-                <tbody id="listaLancamentos"></tbody>
+
+                <tbody
+                    id="listaLancamentos">
+                </tbody>
+
 
             </table>
 
+
         </div>
+
+
     </div>
+
 
 </div>
 
+
+
 <script>
 
+
+    /* =========================
+       DADOS
+    ========================= */
+
+
     let lancamentos =
-        JSON.parse(localStorage.getItem("lancamentos")) || [];
+        JSON.parse(
+            localStorage.getItem("lancamentos")
+        ) || [];
+
 
     let aluguelSemanal =
-        Number(localStorage.getItem("aluguelSemanal")) || 0;
+        Number(
+            localStorage.getItem("aluguelSemanal")
+        ) || 0;
+
 
     let metaSemanal =
-        Number(localStorage.getItem("metaSemanal")) || 0;
+        Number(
+            localStorage.getItem("metaSemanal")
+        ) || 0;
+
+
+    let franquiaKm =
+        Number(
+            localStorage.getItem("franquiaKm")
+        ) || 1500;
+
+
+    let quilometragemSemanas =
+        JSON.parse(
+            localStorage.getItem(
+                "quilometragemSemanas"
+            )
+        ) || {};
+
+
+
+    /* =========================
+       CONFIGURAÇÕES
+    ========================= */
 
 
     function carregarConfiguracoes() {
 
-        document.getElementById("aluguelSemanal").value =
+
+        document.getElementById(
+            "aluguelSemanal"
+        ).value =
             aluguelSemanal || "";
 
-        document.getElementById("metaSemanal").value =
+
+        document.getElementById(
+            "metaSemanal"
+        ).value =
             metaSemanal || "";
+
+
+        document.getElementById(
+            "franquiaKm"
+        ).value =
+            franquiaKm;
+
 
     }
 
 
+
     function salvarConfiguracoes() {
 
+
         aluguelSemanal =
-            Number(document.getElementById("aluguelSemanal").value);
+            Number(
+                document.getElementById(
+                    "aluguelSemanal"
+                ).value
+            ) || 0;
+
 
         metaSemanal =
-            Number(document.getElementById("metaSemanal").value);
+            Number(
+                document.getElementById(
+                    "metaSemanal"
+                ).value
+            ) || 0;
+
+
+        franquiaKm =
+            Number(
+                document.getElementById(
+                    "franquiaKm"
+                ).value
+            ) || 1500;
+
 
         localStorage.setItem(
             "aluguelSemanal",
             aluguelSemanal
         );
 
+
         localStorage.setItem(
             "metaSemanal",
             metaSemanal
         );
 
+
+        localStorage.setItem(
+            "franquiaKm",
+            franquiaKm
+        );
+
+
         atualizarTela();
 
-        alert("Configurações salvas!");
+
+        alert(
+            "Configurações salvas!"
+        );
+
 
     }
+
+
+
+    /* =========================
+       LANÇAMENTOS
+    ========================= */
 
 
     function adicionarLancamento() {
 
+
         const data =
-            document.getElementById("data").value;
+            document.getElementById(
+                "data"
+            ).value;
+
 
         const tipo =
-            document.getElementById("tipo").value;
+            document.getElementById(
+                "tipo"
+            ).value;
+
 
         const categoria =
-            document.getElementById("categoria").value;
+            document.getElementById(
+                "categoria"
+            ).value;
+
 
         const valor =
-            Number(document.getElementById("valor").value);
+            Number(
+                document.getElementById(
+                    "valor"
+                ).value
+            );
 
-        if (!data || valor <= 0) {
 
-            alert("Informe uma data e um valor válido.");
+        if (
+            !data ||
+            valor <= 0
+        ) {
+
+
+            alert(
+                "Informe uma data e um valor válido."
+            );
+
 
             return;
 
         }
 
-        const diaSemana =
-            obterDiaSemana(data);
 
         const lancamento = {
-            id: Date.now(),
-            data: data,
-            diaSemana: diaSemana,
-            tipo: tipo,
-            categoria: categoria,
-            valor: valor
+
+
+            id:
+                Date.now(),
+
+
+            data:
+                data,
+
+
+            diaSemana:
+                obterDiaSemana(data),
+
+
+            tipo:
+                tipo,
+
+
+            categoria:
+                categoria,
+
+
+            valor:
+                valor
+
+
         };
 
-        lancamentos.push(lancamento);
+
+        lancamentos.push(
+            lancamento
+        );
+
 
         salvarLancamentos();
 
-        document.getElementById("valor").value = "";
+
+        document.getElementById(
+            "valor"
+        ).value = "";
+
 
         atualizarTela();
 
+
     }
+
 
 
     function excluirLancamento(id) {
 
+
         const confirmar =
-            confirm("Deseja excluir este lançamento?");
+            confirm(
+                "Deseja excluir este lançamento?"
+            );
+
 
         if (!confirmar) {
+
             return;
+
         }
+
 
         lancamentos =
             lancamentos.filter(
-                item => item.id !== id
+
+                item =>
+                    item.id !== id
+
             );
+
 
         salvarLancamentos();
 
+
         atualizarTela();
 
+
     }
+
 
 
     function salvarLancamentos() {
 
+
         localStorage.setItem(
+
             "lancamentos",
-            JSON.stringify(lancamentos)
+
+            JSON.stringify(
+                lancamentos
+            )
+
         );
+
 
     }
 
 
+
+    /* =========================
+       SEMANA
+    ========================= */
+
+
     function obterInicioSemana(data) {
+
 
         const novaData =
             new Date(data);
 
+
         const dia =
             novaData.getDay();
+
 
         const diferenca =
             dia === 0
                 ? -6
                 : 1 - dia;
 
+
         novaData.setDate(
-            novaData.getDate() + diferenca
+
+            novaData.getDate()
+            +
+            diferenca
+
         );
+
 
         novaData.setHours(
             0,
@@ -518,22 +1361,33 @@
             0
         );
 
+
         return novaData;
+
 
     }
 
 
+
     function obterFimSemana(data) {
+
 
         const inicio =
             obterInicioSemana(data);
 
+
         const fim =
             new Date(inicio);
 
+
         fim.setDate(
-            inicio.getDate() + 6
+
+            inicio.getDate()
+            +
+            6
+
         );
+
 
         fim.setHours(
             23,
@@ -542,377 +1396,72 @@
             999
         );
 
+
         return fim;
 
-    }
-
-
-    function atualizarTela() {
-
-        const hoje =
-            new Date();
-
-        const inicioSemana =
-            obterInicioSemana(hoje);
-
-        const fimSemana =
-            obterFimSemana(hoje);
-
-        document.getElementById("periodoSemana").textContent =
-            formatarDataObjeto(inicioSemana)
-            + " até "
-            + formatarDataObjeto(fimSemana);
-
-        let totalGanhos = 0;
-        let totalGastos = 0;
-
-        lancamentos.forEach(function(item) {
-
-            if (!item.data) {
-                return;
-            }
-
-            const dataItem =
-                criarDataLocal(item.data);
-
-            if (
-                dataItem >= inicioSemana &&
-                dataItem <= fimSemana
-            ) {
-
-                if (item.tipo === "ganho") {
-
-                    totalGanhos +=
-                        Number(item.valor) || 0;
-
-                } else {
-
-                    totalGastos +=
-                        Number(item.valor) || 0;
-
-                }
-
-            }
-
-        });
-
-        const saldoLiquido =
-            totalGanhos
-            - totalGastos
-            - aluguelSemanal;
-
-        document.getElementById("totalGanhos").textContent =
-            formatarDinheiro(totalGanhos);
-
-        document.getElementById("totalGastos").textContent =
-            formatarDinheiro(totalGastos);
-
-        document.getElementById("aluguelResumo").textContent =
-            formatarDinheiro(aluguelSemanal);
-
-        const saldoElemento =
-            document.getElementById("saldoLiquido");
-
-        saldoElemento.textContent =
-            formatarDinheiro(saldoLiquido);
-
-        if (saldoLiquido < 0) {
-
-            saldoElemento.className =
-                "valor vermelho";
-
-        } else {
-
-            saldoElemento.className =
-                "valor verde";
-
-        }
-
-        atualizarMeta(saldoLiquido);
-
-        atualizarHistorico();
 
     }
 
 
-    function atualizarMeta(saldoLiquido) {
 
-        const texto =
-            document.getElementById("textoMeta");
+    function obterChaveSemana() {
 
-        const barra =
-            document.getElementById("barraProgresso");
 
-        if (metaSemanal <= 0) {
+        const inicio =
+            obterInicioSemana(
+                new Date()
+            );
 
-            texto.textContent =
-                "Defina sua meta semanal.";
-
-            barra.style.width =
-                "0%";
-
-            return;
-
-        }
-
-        let percentual =
-            (saldoLiquido / metaSemanal) * 100;
-
-        if (percentual < 0) {
-            percentual = 0;
-        }
-
-        if (percentual > 100) {
-            percentual = 100;
-        }
-
-        barra.style.width =
-            percentual + "%";
-
-        if (saldoLiquido >= metaSemanal) {
-
-            const excedente =
-                saldoLiquido - metaSemanal;
-
-            texto.textContent =
-                "🎉 Meta atingida! Você passou "
-                + formatarDinheiro(excedente)
-                + " da meta.";
-
-        } else {
-
-            const falta =
-                metaSemanal - saldoLiquido;
-
-            texto.textContent =
-                "Faltam "
-                + formatarDinheiro(falta)
-                + " para atingir a meta.";
-
-        }
-
-    }
-
-
-    function atualizarHistorico() {
-
-        const lista =
-            document.getElementById("listaLancamentos");
-
-        lista.innerHTML = "";
-
-        const ordenados =
-            [...lancamentos]
-                .sort(function(a, b) {
-
-                    const dataA =
-                        a.data
-                            ? new Date(a.data)
-                            : new Date(0);
-
-                    const dataB =
-                        b.data
-                            ? new Date(b.data)
-                            : new Date(0);
-
-                    return dataB - dataA;
-
-                });
-
-        ordenados.forEach(function(item) {
-
-            const linha =
-                document.createElement("tr");
-
-            const dataExibicao =
-                item.data
-                    ? formatarData(item.data)
-                    : "-";
-
-            const diaExibicao =
-                item.diaSemana
-                || obterDiaSemana(item.data)
-                || "-";
-
-            const categoriaExibicao =
-                item.categoria || "-";
-
-            const tipoExibicao =
-                item.tipo === "ganho"
-                    ? "Ganho"
-                    : item.tipo === "gasto"
-                        ? "Gasto"
-                        : "-";
-
-            const valorExibicao =
-                formatarDinheiro(
-                    Number(item.valor) || 0
-                );
-
-            linha.innerHTML = `
-                <td>${dataExibicao}</td>
-
-                <td>${diaExibicao}</td>
-
-                <td>${categoriaExibicao}</td>
-
-                <td>${tipoExibicao}</td>
-
-                <td>${valorExibicao}</td>
-
-                <td>
-                    <button
-                        class="botao-excluir"
-                        onclick="excluirLancamento(${item.id})"
-                    >
-                        Excluir
-                    </button>
-                </td>
-            `;
-
-            lista.appendChild(linha);
-
-        });
-
-    }
-
-
-    function formatarDinheiro(valor) {
-
-        return Number(valor).toLocaleString(
-            "pt-BR",
-            {
-                style: "currency",
-                currency: "BRL"
-            }
-        );
-
-    }
-
-
-    function formatarData(data) {
-
-        if (!data) {
-            return "-";
-        }
-
-        const partes =
-            data.split("-");
-
-        if (partes.length !== 3) {
-            return "-";
-        }
-
-        return (
-            partes[2]
-            + "/"
-            + partes[1]
-            + "/"
-            + partes[0]
-        );
-
-    }
-
-
-    function formatarDataObjeto(data) {
-
-        return data.toLocaleDateString(
-            "pt-BR",
-            {
-                day: "2-digit",
-                month: "2-digit"
-            }
-        );
-
-    }
-
-
-    function criarDataLocal(data) {
-
-        if (!data) {
-            return null;
-        }
-
-        const partes =
-            data.split("-");
-
-        if (partes.length !== 3) {
-            return null;
-        }
-
-        return new Date(
-            Number(partes[0]),
-            Number(partes[1]) - 1,
-            Number(partes[2]),
-            12,
-            0,
-            0
-        );
-
-    }
-
-
-    function obterDiaSemana(data) {
-
-        if (!data) {
-            return "-";
-        }
-
-        const dataObjeto =
-            criarDataLocal(data);
-
-        if (!dataObjeto) {
-            return "-";
-        }
-
-        return dataObjeto.toLocaleDateString(
-            "pt-BR",
-            {
-                weekday: "long"
-            }
-        );
-
-    }
-
-
-    function colocarDataHoje() {
-
-        const hoje =
-            new Date();
 
         const ano =
-            hoje.getFullYear();
+            inicio.getFullYear();
+
 
         const mes =
             String(
-                hoje.getMonth() + 1
+                inicio.getMonth() + 1
             ).padStart(
                 2,
                 "0"
             );
+
 
         const dia =
             String(
-                hoje.getDate()
+                inicio.getDate()
             ).padStart(
                 2,
                 "0"
             );
 
-        document.getElementById("data").value =
-            `${ano}-${mes}-${dia}`;
+
+        return (
+            ano
+            +
+            "-"
+            +
+            mes
+            +
+            "-"
+            +
+            dia
+        );
+
 
     }
 
 
-    carregarConfiguracoes();
 
-    colocarDataHoje();
+    /* =========================
+       QUILOMETRAGEM
+    ========================= */
 
-    atualizarTela();
 
-</script>
+    function carregarQuilometragem() {
 
-</body>
 
-</html>
+        const chaveSemana =
+            obterChaveSemana();
+
+
+ 
