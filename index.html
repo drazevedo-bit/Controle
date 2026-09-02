@@ -8,7 +8,6 @@
     <title>Controle Financeiro Motorista</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -40,9 +39,7 @@
             padding: 20px;
             border-radius: 14px;
             margin-bottom: 20px;
-
-            box-shadow:
-                0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         label {
@@ -56,29 +53,21 @@
         select {
             width: 100%;
             padding: 12px;
-
             border: 1px solid #d1d5db;
             border-radius: 8px;
-
             font-size: 16px;
         }
 
         button {
             width: 100%;
-
             padding: 13px;
-
             margin-top: 15px;
-
             border: none;
             border-radius: 8px;
-
             background: #2563eb;
             color: white;
-
             font-size: 16px;
             font-weight: bold;
-
             cursor: pointer;
         }
 
@@ -86,35 +75,21 @@
             background: #1d4ed8;
         }
 
-
-        /* CONFIGURAÇÕES */
-
         .config-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
-
-        /* PERÍODO DA SEMANA */
-
         .periodo {
             background: #e0e7ff;
-
             padding: 15px;
-
             text-align: center;
-
             border-radius: 10px;
-
             font-size: 18px;
             font-weight: bold;
-
             margin-bottom: 20px;
         }
-
-
-        /* RESUMO */
 
         .resumo {
             display: grid;
@@ -124,13 +99,9 @@
 
         .resumo-card {
             background: #f9fafb;
-
             padding: 15px;
-
             border-radius: 10px;
-
             text-align: center;
-
             border: 1px solid #e5e7eb;
         }
 
@@ -141,7 +112,6 @@
 
         .valor {
             margin-top: 6px;
-
             font-size: 24px;
             font-weight: bold;
         }
@@ -158,47 +128,29 @@
             color: #2563eb;
         }
 
-        .laranja {
-            color: #ea580c;
-        }
-
-
-        /* META */
-
         .meta-box {
             margin-top: 20px;
         }
 
         .barra-fundo {
             height: 20px;
-
             background: #e5e7eb;
-
             border-radius: 10px;
-
             overflow: hidden;
         }
 
         .barra-progresso {
             height: 100%;
-
             width: 0%;
-
             background: #22c55e;
-
             transition: width 0.4s;
         }
 
         .texto-meta {
             text-align: center;
-
             margin-top: 10px;
-
             font-weight: bold;
         }
-
-
-        /* TABELA */
 
         .tabela-container {
             overflow-x: auto;
@@ -212,11 +164,8 @@
         th,
         td {
             padding: 10px;
-
             border-bottom: 1px solid #e5e7eb;
-
             text-align: left;
-
             white-space: nowrap;
         }
 
@@ -226,13 +175,9 @@
 
         .botao-excluir {
             width: auto;
-
             padding: 7px 10px;
-
             margin: 0;
-
             background: #dc2626;
-
             font-size: 13px;
         }
 
@@ -240,11 +185,7 @@
             background: #b91c1c;
         }
 
-
-        /* CELULAR */
-
         @media (max-width: 600px) {
-
             .config-grid {
                 grid-template-columns: 1fr;
             }
@@ -257,12 +198,22 @@
                 font-size: 25px;
             }
 
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 8px 6px;
+            }
+
+            .botao-excluir {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
@@ -270,42 +221,31 @@
 
     <h1>🚗 Controle Financeiro</h1>
 
-
-    <!-- CONFIGURAÇÕES -->
-
     <div class="card">
-
         <h2>⚙️ Configurações</h2>
 
         <div class="config-grid">
 
             <div>
-
-                <label>
-                    Aluguel semanal do carro
-                </label>
+                <label>Aluguel semanal do carro</label>
 
                 <input
                     type="number"
                     id="aluguelSemanal"
                     placeholder="Ex: 800.00"
-                    step="0.01">
-
+                    step="0.01"
+                >
             </div>
 
-
             <div>
-
-                <label>
-                    Meta líquida semanal
-                </label>
+                <label>Meta líquida semanal</label>
 
                 <input
                     type="number"
                     id="metaSemanal"
                     placeholder="Ex: 1500.00"
-                    step="0.01">
-
+                    step="0.01"
+                >
             </div>
 
         </div>
@@ -313,224 +253,97 @@
         <button onclick="salvarConfiguracoes()">
             Salvar configurações
         </button>
-
     </div>
 
-
-    <!-- SEMANA -->
-
     <div class="card">
-
         <h2>📅 Semana atual</h2>
 
-        <div
-            class="periodo"
-            id="periodoSemana">
-        </div>
-
+        <div class="periodo" id="periodoSemana"></div>
 
         <div class="resumo">
 
-
             <div class="resumo-card">
-
-                <div class="titulo-resumo">
-                    Ganhos
-                </div>
-
-                <div
-                    class="valor verde"
-                    id="totalGanhos">
-
+                <div class="titulo-resumo">Ganhos</div>
+                <div class="valor verde" id="totalGanhos">
                     R$ 0,00
-
                 </div>
-
             </div>
 
-
             <div class="resumo-card">
-
-                <div class="titulo-resumo">
-                    Gastos lançados
-                </div>
-
-                <div
-                    class="valor vermelho"
-                    id="totalGastos">
-
+                <div class="titulo-resumo">Gastos lançados</div>
+                <div class="valor vermelho" id="totalGastos">
                     R$ 0,00
-
                 </div>
-
             </div>
 
-
             <div class="resumo-card">
-
-                <div class="titulo-resumo">
-                    Aluguel semanal
-                </div>
-
-                <div
-                    class="valor vermelho"
-                    id="aluguelResumo">
-
+                <div class="titulo-resumo">Aluguel semanal</div>
+                <div class="valor vermelho" id="aluguelResumo">
                     R$ 0,00
-
                 </div>
-
             </div>
 
-
             <div class="resumo-card">
-
-                <div class="titulo-resumo">
-                    Líquido da semana
-                </div>
-
-                <div
-                    class="valor azul"
-                    id="saldoLiquido">
-
+                <div class="titulo-resumo">Líquido da semana</div>
+                <div class="valor azul" id="saldoLiquido">
                     R$ 0,00
-
                 </div>
-
             </div>
-
 
         </div>
-
-
-        <!-- META -->
 
         <div class="meta-box">
-
-            <h3>
-                🎯 Meta semanal
-            </h3>
+            <h3>🎯 Meta semanal</h3>
 
             <div class="barra-fundo">
-
-                <div
-                    class="barra-progresso"
-                    id="barraProgresso">
-                </div>
-
+                <div class="barra-progresso" id="barraProgresso"></div>
             </div>
 
-            <div
-                class="texto-meta"
-                id="textoMeta">
-
+            <div class="texto-meta" id="textoMeta">
                 Defina sua meta semanal.
-
             </div>
-
         </div>
-
     </div>
 
-
-    <!-- NOVO LANÇAMENTO -->
-
     <div class="card">
-
         <h2>➕ Novo lançamento</h2>
 
+        <label>Data</label>
+        <input type="date" id="data">
 
-        <label>
-            Data
-        </label>
-
-        <input
-            type="date"
-            id="data">
-
-
-        <label>
-            Tipo
-        </label>
-
+        <label>Tipo</label>
         <select id="tipo">
-
-            <option value="ganho">
-                Ganho
-            </option>
-
-            <option value="gasto">
-                Gasto
-            </option>
-
+            <option value="ganho">Ganho</option>
+            <option value="gasto">Gasto</option>
         </select>
 
-
-        <label>
-            Categoria
-        </label>
-
+        <label>Categoria</label>
         <select id="categoria">
-
             <option>Uber</option>
-
             <option>99</option>
-
-            <option>
-                Corrida particular
-            </option>
-
-            <option>
-                Combustível
-            </option>
-
-            <option>
-                Lavagem
-            </option>
-
-            <option>
-                Pedágio
-            </option>
-
-            <option>
-                Alimentação
-            </option>
-
-            <option>
-                Estacionamento
-            </option>
-
-            <option>
-                Outros
-            </option>
-
+            <option>Corrida particular</option>
+            <option>Combustível</option>
+            <option>Lavagem</option>
+            <option>Pedágio</option>
+            <option>Alimentação</option>
+            <option>Estacionamento</option>
+            <option>Outros</option>
         </select>
 
-
-        <label>
-            Valor
-        </label>
-
+        <label>Valor</label>
         <input
             type="number"
             id="valor"
             placeholder="Ex: 150.00"
-            step="0.01">
-
+            step="0.01"
+        >
 
         <button onclick="adicionarLancamento()">
-
             Adicionar lançamento
-
         </button>
-
     </div>
 
-
-    <!-- HISTÓRICO -->
-
     <div class="card">
-
         <h2>📋 Histórico</h2>
 
         <div class="tabela-container">
@@ -538,282 +351,147 @@
             <table>
 
                 <thead>
-
                     <tr>
-
                         <th>Data</th>
-
                         <th>Dia</th>
-
                         <th>Categoria</th>
-
                         <th>Tipo</th>
-
                         <th>Valor</th>
-
                         <th></th>
-
                     </tr>
-
                 </thead>
 
-
-                <tbody
-                    id="listaLancamentos">
-                </tbody>
+                <tbody id="listaLancamentos"></tbody>
 
             </table>
 
         </div>
-
     </div>
-
 
 </div>
 
-
 <script>
 
-
-    /* ==============================
-       DADOS
-    ============================== */
-
-
     let lancamentos =
-        JSON.parse(
-            localStorage.getItem("lancamentos")
-        ) || [];
-
+        JSON.parse(localStorage.getItem("lancamentos")) || [];
 
     let aluguelSemanal =
-        Number(
-            localStorage.getItem("aluguelSemanal")
-        ) || 0;
-
+        Number(localStorage.getItem("aluguelSemanal")) || 0;
 
     let metaSemanal =
-        Number(
-            localStorage.getItem("metaSemanal")
-        ) || 0;
-
-
-
-    /* ==============================
-       CONFIGURAÇÕES
-    ============================== */
+        Number(localStorage.getItem("metaSemanal")) || 0;
 
 
     function carregarConfiguracoes() {
 
-        document.getElementById(
-            "aluguelSemanal"
-        ).value =
+        document.getElementById("aluguelSemanal").value =
             aluguelSemanal || "";
 
-
-        document.getElementById(
-            "metaSemanal"
-        ).value =
+        document.getElementById("metaSemanal").value =
             metaSemanal || "";
 
     }
 
 
-
     function salvarConfiguracoes() {
 
         aluguelSemanal =
-            Number(
-                document.getElementById(
-                    "aluguelSemanal"
-                ).value
-            );
-
+            Number(document.getElementById("aluguelSemanal").value);
 
         metaSemanal =
-            Number(
-                document.getElementById(
-                    "metaSemanal"
-                ).value
-            );
-
+            Number(document.getElementById("metaSemanal").value);
 
         localStorage.setItem(
             "aluguelSemanal",
             aluguelSemanal
         );
 
-
         localStorage.setItem(
             "metaSemanal",
             metaSemanal
         );
 
-
         atualizarTela();
 
-
-        alert(
-            "Configurações salvas!"
-        );
+        alert("Configurações salvas!");
 
     }
-
-
-
-    /* ==============================
-       ADICIONAR LANÇAMENTO
-    ============================== */
 
 
     function adicionarLancamento() {
 
         const data =
-            document.getElementById(
-                "data"
-            ).value;
-
+            document.getElementById("data").value;
 
         const tipo =
-            document.getElementById(
-                "tipo"
-            ).value;
-
+            document.getElementById("tipo").value;
 
         const categoria =
-            document.getElementById(
-                "categoria"
-            ).value;
-
+            document.getElementById("categoria").value;
 
         const valor =
-            Number(
-                document.getElementById(
-                    "valor"
-                ).value
-            );
-
+            Number(document.getElementById("valor").value);
 
         if (!data || valor <= 0) {
 
-            alert(
-                "Informe uma data e um valor válido."
-            );
+            alert("Informe uma data e um valor válido.");
 
             return;
 
         }
 
-
-        const dataObjeto =
-            criarDataLocal(data);
-
-
         const diaSemana =
-            dataObjeto.toLocaleDateString(
-                "pt-BR",
-                {
-                    weekday: "long"
-                }
-            );
-
+            obterDiaSemana(data);
 
         const lancamento = {
-
             id: Date.now(),
-
             data: data,
-
             diaSemana: diaSemana,
-
             tipo: tipo,
-
             categoria: categoria,
-
             valor: valor
-
         };
 
-
-        lancamentos.push(
-            lancamento
-        );
-
+        lancamentos.push(lancamento);
 
         salvarLancamentos();
 
-
-        document.getElementById(
-            "valor"
-        ).value = "";
-
+        document.getElementById("valor").value = "";
 
         atualizarTela();
 
     }
-
-
-
-    /* ==============================
-       EXCLUIR
-    ============================== */
 
 
     function excluirLancamento(id) {
 
         const confirmar =
-            confirm(
-                "Deseja excluir este lançamento?"
-            );
-
+            confirm("Deseja excluir este lançamento?");
 
         if (!confirmar) {
             return;
         }
 
-
         lancamentos =
             lancamentos.filter(
-                item =>
-                    item.id !== id
+                item => item.id !== id
             );
 
-
         salvarLancamentos();
-
 
         atualizarTela();
 
     }
 
 
-
-    /* ==============================
-       SALVAR NO NAVEGADOR
-    ============================== */
-
-
     function salvarLancamentos() {
 
         localStorage.setItem(
-
             "lancamentos",
-
-            JSON.stringify(
-                lancamentos
-            )
-
+            JSON.stringify(lancamentos)
         );
 
     }
-
-
-
-    /* ==============================
-       SEMANA
-       Segunda até domingo
-    ============================== */
 
 
     function obterInicioSemana(data) {
@@ -821,22 +499,17 @@
         const novaData =
             new Date(data);
 
-
         const dia =
             novaData.getDay();
 
-
         const diferenca =
             dia === 0
-            ? -6
-            : 1 - dia;
-
+                ? -6
+                : 1 - dia;
 
         novaData.setDate(
-            novaData.getDate()
-            + diferenca
+            novaData.getDate() + diferenca
         );
-
 
         novaData.setHours(
             0,
@@ -845,11 +518,9 @@
             0
         );
 
-
         return novaData;
 
     }
-
 
 
     function obterFimSemana(data) {
@@ -857,15 +528,12 @@
         const inicio =
             obterInicioSemana(data);
 
-
         const fim =
             new Date(inicio);
-
 
         fim.setDate(
             inicio.getDate() + 6
         );
-
 
         fim.setHours(
             23,
@@ -874,16 +542,9 @@
             999
         );
 
-
         return fim;
 
     }
-
-
-
-    /* ==============================
-       ATUALIZAR TELA
-    ============================== */
 
 
     function atualizarTela() {
@@ -891,177 +552,98 @@
         const hoje =
             new Date();
 
-
         const inicioSemana =
-            obterInicioSemana(
-                hoje
-            );
-
+            obterInicioSemana(hoje);
 
         const fimSemana =
-            obterFimSemana(
-                hoje
-            );
+            obterFimSemana(hoje);
 
-
-        document.getElementById(
-            "periodoSemana"
-        ).textContent =
-
-            formatarDataObjeto(
-                inicioSemana
-            )
-
+        document.getElementById("periodoSemana").textContent =
+            formatarDataObjeto(inicioSemana)
             + " até "
-
-            + formatarDataObjeto(
-                fimSemana
-            );
-
+            + formatarDataObjeto(fimSemana);
 
         let totalGanhos = 0;
-
         let totalGastos = 0;
 
+        lancamentos.forEach(function(item) {
 
+            if (!item.data) {
+                return;
+            }
 
-        lancamentos.forEach(
-            function(item) {
+            const dataItem =
+                criarDataLocal(item.data);
 
-                const dataItem =
-                    criarDataLocal(
-                        item.data
-                    );
+            if (
+                dataItem >= inicioSemana &&
+                dataItem <= fimSemana
+            ) {
 
+                if (item.tipo === "ganho") {
 
-                if (
-                    dataItem >= inicioSemana &&
-                    dataItem <= fimSemana
-                ) {
+                    totalGanhos +=
+                        Number(item.valor) || 0;
 
-                    if (
-                        item.tipo ===
-                        "ganho"
-                    ) {
+                } else {
 
-                        totalGanhos +=
-                            item.valor;
-
-                    }
-
-                    else {
-
-                        totalGastos +=
-                            item.valor;
-
-                    }
+                    totalGastos +=
+                        Number(item.valor) || 0;
 
                 }
 
             }
-        );
 
-
+        });
 
         const saldoLiquido =
-
             totalGanhos
-
             - totalGastos
-
             - aluguelSemanal;
 
+        document.getElementById("totalGanhos").textContent =
+            formatarDinheiro(totalGanhos);
 
+        document.getElementById("totalGastos").textContent =
+            formatarDinheiro(totalGastos);
 
-        document.getElementById(
-            "totalGanhos"
-        ).textContent =
-            formatarDinheiro(
-                totalGanhos
-            );
-
-
-        document.getElementById(
-            "totalGastos"
-        ).textContent =
-            formatarDinheiro(
-                totalGastos
-            );
-
-
-        document.getElementById(
-            "aluguelResumo"
-        ).textContent =
-            formatarDinheiro(
-                aluguelSemanal
-            );
-
+        document.getElementById("aluguelResumo").textContent =
+            formatarDinheiro(aluguelSemanal);
 
         const saldoElemento =
-            document.getElementById(
-                "saldoLiquido"
-            );
-
+            document.getElementById("saldoLiquido");
 
         saldoElemento.textContent =
-            formatarDinheiro(
-                saldoLiquido
-            );
+            formatarDinheiro(saldoLiquido);
 
-
-        if (
-            saldoLiquido < 0
-        ) {
+        if (saldoLiquido < 0) {
 
             saldoElemento.className =
                 "valor vermelho";
 
-        }
-
-        else {
+        } else {
 
             saldoElemento.className =
                 "valor verde";
 
         }
 
-
-        atualizarMeta(
-            saldoLiquido
-        );
-
+        atualizarMeta(saldoLiquido);
 
         atualizarHistorico();
 
     }
 
 
-
-    /* ==============================
-       META
-    ============================== */
-
-
-    function atualizarMeta(
-        saldoLiquido
-    ) {
-
+    function atualizarMeta(saldoLiquido) {
 
         const texto =
-            document.getElementById(
-                "textoMeta"
-            );
-
+            document.getElementById("textoMeta");
 
         const barra =
-            document.getElementById(
-                "barraProgresso"
-            );
+            document.getElementById("barraProgresso");
 
-
-        if (
-            metaSemanal <= 0
-        ) {
+        if (metaSemanal <= 0) {
 
             texto.textContent =
                 "Defina sua meta semanal.";
@@ -1073,85 +655,38 @@
 
         }
 
-
-
         let percentual =
+            (saldoLiquido / metaSemanal) * 100;
 
-            (
-                saldoLiquido
-                /
-                metaSemanal
-            )
-
-            * 100;
-
-
-
-        if (
-            percentual < 0
-        ) {
-
+        if (percentual < 0) {
             percentual = 0;
-
         }
 
-
-        if (
-            percentual > 100
-        ) {
-
+        if (percentual > 100) {
             percentual = 100;
-
         }
-
-
 
         barra.style.width =
             percentual + "%";
 
-
-
-        if (
-            saldoLiquido >=
-            metaSemanal
-        ) {
+        if (saldoLiquido >= metaSemanal) {
 
             const excedente =
-
-                saldoLiquido
-                -
-                metaSemanal;
-
+                saldoLiquido - metaSemanal;
 
             texto.textContent =
-
                 "🎉 Meta atingida! Você passou "
-
-                + formatarDinheiro(
-                    excedente
-                )
-
+                + formatarDinheiro(excedente)
                 + " da meta.";
 
-        }
-
-        else {
+        } else {
 
             const falta =
-
-                metaSemanal
-                -
-                saldoLiquido;
-
+                metaSemanal - saldoLiquido;
 
             texto.textContent =
-
                 "Faltam "
-
-                + formatarDinheiro(
-                    falta
-                )
-
+                + formatarDinheiro(falta)
                 + " para atingir a meta.";
 
         }
@@ -1159,216 +694,185 @@
     }
 
 
-
-    /* ==============================
-       HISTÓRICO
-    ============================== */
-
-
     function atualizarHistorico() {
 
         const lista =
-            document.getElementById(
-                "listaLancamentos"
-            );
-
+            document.getElementById("listaLancamentos");
 
         lista.innerHTML = "";
 
-
         const ordenados =
-
             [...lancamentos]
-            .sort(
+                .sort(function(a, b) {
 
-                (a, b) =>
-
-                    new Date(
-                        b.data
-                    )
-
-                    -
-
-                    new Date(
+                    const dataA =
                         a.data
-                    )
+                            ? new Date(a.data)
+                            : new Date(0);
 
-            );
+                    const dataB =
+                        b.data
+                            ? new Date(b.data)
+                            : new Date(0);
 
+                    return dataB - dataA;
 
-        ordenados.forEach(
-            function(item) {
+                });
 
+        ordenados.forEach(function(item) {
 
-                const linha =
-                    document.createElement(
-                        "tr"
-                    );
+            const linha =
+                document.createElement("tr");
 
+            const dataExibicao =
+                item.data
+                    ? formatarData(item.data)
+                    : "-";
 
-                linha.innerHTML = `
+            const diaExibicao =
+                item.diaSemana
+                || obterDiaSemana(item.data)
+                || "-";
 
-                    <td>
-                        ${formatarData(item.data)}
-                    </td>
+            const categoriaExibicao =
+                item.categoria || "-";
 
-                    <td>
-                         ${item.diaSemana || obterDiaSemana(item.data)}
-                    </td>
+            const tipoExibicao =
+                item.tipo === "ganho"
+                    ? "Ganho"
+                    : item.tipo === "gasto"
+                        ? "Gasto"
+                        : "-";
 
-                    <td>
-                        ${item.categoria}
-                    </td>
-
-                    <td>
-                        ${
-                            item.tipo === "ganho"
-                            ? "Ganho"
-                            : "Gasto"
-                        }
-                    </td>
-
-                    <td>
-                        ${formatarDinheiro(item.valor)}
-                    </td>
-
-                    <td>
-
-                        <button
-                            class="botao-excluir"
-                            onclick="excluirLancamento(${item.id})">
-
-                            Excluir
-
-                        </button>
-
-                    </td>
-
-                `;
-
-
-                lista.appendChild(
-                    linha
+            const valorExibicao =
+                formatarDinheiro(
+                    Number(item.valor) || 0
                 );
 
-            }
-        );
+            linha.innerHTML = `
+                <td>${dataExibicao}</td>
+
+                <td>${diaExibicao}</td>
+
+                <td>${categoriaExibicao}</td>
+
+                <td>${tipoExibicao}</td>
+
+                <td>${valorExibicao}</td>
+
+                <td>
+                    <button
+                        class="botao-excluir"
+                        onclick="excluirLancamento(${item.id})"
+                    >
+                        Excluir
+                    </button>
+                </td>
+            `;
+
+            lista.appendChild(linha);
+
+        });
 
     }
 
 
+    function formatarDinheiro(valor) {
 
-    /* ==============================
-       FORMATAÇÕES
-    ============================== */
-
-
-    function formatarDinheiro(
-        valor
-    ) {
-
-        return valor.toLocaleString(
+        return Number(valor).toLocaleString(
             "pt-BR",
             {
-
-                style:
-                    "currency",
-
-                currency:
-                    "BRL"
-
+                style: "currency",
+                currency: "BRL"
             }
         );
 
     }
 
 
+    function formatarData(data) {
 
-    function formatarData(
-        data
-    ) {
+        if (!data) {
+            return "-";
+        }
 
         const partes =
             data.split("-");
 
+        if (partes.length !== 3) {
+            return "-";
+        }
 
-        return
-
+        return (
             partes[2]
             + "/"
             + partes[1]
             + "/"
-            + partes[0];
+            + partes[0]
+        );
 
     }
 
 
-
-    function formatarDataObjeto(
-        data
-    ) {
+    function formatarDataObjeto(data) {
 
         return data.toLocaleDateString(
             "pt-BR",
             {
-
-                day:
-                    "2-digit",
-
-                month:
-                    "2-digit"
-
+                day: "2-digit",
+                month: "2-digit"
             }
         );
 
     }
 
 
-       function obterDiaSemana(data) {
+    function criarDataLocal(data) {
 
         if (!data) {
-        return "-";
+            return null;
         }
-
-    const dataObjeto = criarDataLocal(data);
-
-    return dataObjeto.toLocaleDateString(
-        "pt-BR",
-        {
-            weekday: "long"
-        }
-    );
-
-}
-    function criarDataLocal(
-        data
-    ) {
 
         const partes =
             data.split("-");
 
+        if (partes.length !== 3) {
+            return null;
+        }
 
         return new Date(
-
             Number(partes[0]),
-
             Number(partes[1]) - 1,
-
             Number(partes[2]),
-
             12,
             0,
             0
-
         );
 
     }
 
 
+    function obterDiaSemana(data) {
 
-    /* ==============================
-       DATA DE HOJE
-    ============================== */
+        if (!data) {
+            return "-";
+        }
+
+        const dataObjeto =
+            criarDataLocal(data);
+
+        if (!dataObjeto) {
+            return "-";
+        }
+
+        return dataObjeto.toLocaleDateString(
+            "pt-BR",
+            {
+                weekday: "long"
+            }
+        );
+
+    }
 
 
     function colocarDataHoje() {
@@ -1376,10 +880,8 @@
         const hoje =
             new Date();
 
-
         const ano =
             hoje.getFullYear();
-
 
         const mes =
             String(
@@ -1389,7 +891,6 @@
                 "0"
             );
 
-
         const dia =
             String(
                 hoje.getDate()
@@ -1398,20 +899,10 @@
                 "0"
             );
 
-
-        document.getElementById(
-            "data"
-        ).value =
-
+        document.getElementById("data").value =
             `${ano}-${mes}-${dia}`;
 
     }
-
-
-
-    /* ==============================
-       INICIAR
-    ============================== */
 
 
     carregarConfiguracoes();
@@ -1419,7 +910,6 @@
     colocarDataHoje();
 
     atualizarTela();
-
 
 </script>
 
