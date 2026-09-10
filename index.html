@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mídia de Bordo - Galaxy Tab E</title>
+    
+    <style>
+        /* ==========================================================================
+           1. ESTILOS BASE & RESET (Compatível com Android KitKat)
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000000;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #FFFFFF;
+        }
+
+        /* Container principal em Grid/Flex Layout NATIVO */
+        .app-container {
+            width: 100%;
+            height: 100%;
+            display: block;
+            position: relative;
+        }
+
+        /* ==========================================================================
+           2. ÁREA DO TOPO (Informações de Hora, Data e Clima)
+           ========================================================================== */
+        .topo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 12%;
+            background-color: #0a0e17;
+            border-bottom: 2px solid #1e293b;
+            padding: 10px 20px;
+            display: block;
+            z-index: 10;
+        }
+
+        .topo-esquerda {
+            float: left;
+            width: 50%;
+            height: 100%;
+        }
+
+        .topo-direita {
+            float: right;
+            width: 50%;
+            height: 100%;
+            text-align: right;
+        }
+
+        .relogio {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .data {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 4px;
+            text-transform: capitalize;
+        }
+
+        .cidade {
+            font-size: 18px;
+            font-weight: bold;
+            color: #38bdf8;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .clima {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-top: 4px;
+        }
+
+        /* ==========================================================================
+           3. ÁREA PRINCIPAL DE ANÚNCIOS (15 Segundos por Slide)
+           ========================================================================== */
+        .anuncios {
+            position: absolute;
+            top: 12%;
+            left: 0;
+            width: 100%;
+            height: 78%;
+            background-color: #05070a;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        /* Sistema de Slides em Camadas na Memória */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.5s ease-in-out;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Camada simples de contraste para manter o texto legível sobre as imagens */
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.42);
+            z-index: 1;
+        }
+
+        /* Slide de Fallback/Informativo (Caso a imagem não exista) */
+        .slide-conteudo {
+            position: relative;
+            z-index: 2;
+            padding: 40px 20px;
+            text-align: center;
+            height: 100%;
+            display: block;
+        }
+
+        .slide-titulo {
+            font-size: 28px;
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .slide-texto {
+            font-size: 20px;
+            color: #e2e8f0;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+
+        .slide-qr {
+            width: 180px;
+            height: 180px;
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .slide-qr img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Barra de Progresso do Slide (15s) */
+        .progress-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 20;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #f59e0b;
+            -webkit-transition-property: width;
+            -webkit-transition-timing-function: linear;
+            transition-property: width;
+            transition-timing-function: linear;
+        }
+
+        /* ==========================================================================
+           4. ÁREA DO RODAPÉ (Informativo e Botão Anuncie Aqui)
+           ========================================================================== */
+        .rodape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10%;
+            background-color: #0a0e17;
+            border-top: 2px solid #1e293b;
+            padding: 0 15px;
+            z-index: 10;
+        }
+
+        .rodape-info {
+            float: left;
+            width: 65%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            line-height: 55px;
+            font-size: 15px;
+            color: #e2e8f0;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .rodape-botao {
+            float: right;
+            width: 33%;
+            height: 100%;
+            padding: 8px 0;
+        }
+
+        .btn-anuncie {
+            width: 100%;
+            height: 100%;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn-anuncie:active {
+            background-color: #1d4ed8;
+        }
+
+        /* ==========================================================================
+           5. MODAL "ANUNCIE AQUI" (100% Offline via QR Code Local)
+           ========================================================================== */
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.92);
+            z-index: 100;
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .modal-conteudo {
+            background-color: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 25px 15px;
+            max-width: 90%;
+            margin: 20px auto;
+        }
+
+        .modal-titulo {
+            font-size: 24px;
+            color: #38bdf8;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .modal-subtitulo {
+            font-size: 15px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .modal-qr {
+            width: 200px;
+            height: 200px;
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 0 auto 20px auto;
+            border-radius: 8px;
+        }
+
+        .modal-qr img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-contato {
+            font-size: 18px;
+            color: #f59e0b;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-fechar {
+            background-color: #dc2626;
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- ==================== 1. TOPO ==================== -->
+        <div class="topo">
+            <div class="topo-esquerda">
+                <div id="txt-relogio" class="relogio">00:00</div>
+                <div id="txt-data" class="data">Carregando...</div>
+            </div>
+            <div class="topo-direita">
+                <div id="txt-cidade" class="cidade">Caraguatatuba</div>
+                <div id="txt-clima" class="clima">--°C • Conectando...</div>
+            </div>
+        </div>
+
+        <!-- ==================== 2. ÁREA DE ANÚNCIOS ==================== -->
+        <div class="anuncios" id="container-anuncios">
+            <!-- Os slides são renderizados via JS na inicialização -->
+            <div class="progress-bar-container">
+                <div id="barra-progresso" class="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- ==================== 3. RODAPÉ ==================== -->
+        <div class="rodape">
+            <div class="rodape-info">
+                <div id="txt-rodape" class="marquee-text">Tenha uma ótima viagem! • Use o cinto de segurança.</div>
+            </div>
+            <div class="rodape-botao">
+                <button type="button" class="btn-anuncie" onclick="abrirModal()">ANUNCIE</button>
+            </div>
+        </div>
+
+        <!-- ==================== 4. MODAL ANUNCIE AQUI ==================== -->
+        <div id="modal-anuncie" class="modal">
+            <div class="modal-conteudo">
+                <div class="modal-titulo">ANUNCIE NESTA TELA</div>
+                <div class="modal-subtitulo">Divulgue sua empresa para centenas de passageiros da região!</div>
+                
+                <div class="modal-qr">
+                    <!-- Imagem local do QR Code de contato -->
+                    <img src="midias/qr-anuncie.png" alt="QR Code WhatsApp" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewbox=\'0 0 100 100\'><text x=\'10\' y=\'55\' font-size=\'12\'>QR CODE LOCAL</text></svg>'">
+                </div>
+
+                <div class="modal-contato">WhatsApp: (12) 99999-9999</div>
+                <button type="button" class="btn-fechar" onclick="fecharModal()">FECHAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       6. JAVASCRIPT ES5 (Projetado para compatibilidade com Android 4.4.4 / KitKat)
+       ========================================================================== -->
+    <script type="text/javascript">
+        // --------------------------------------------------------------------------
+        // A. CADASTRO DE ANÚNCIOS (LOCAL)
+        // --------------------------------------------------------------------------
+        var CAMPANHAS = [
+            {
+                id: 1,
+                titulo: "Restaurante Beira Mar",
+                descricao: "O melhor da culinária caiçara em Caraguatatuba. Apresente este anúncio e ganhe 10% de desconto!",
+                imagem: "midias/anuncio01.jpg",
+                qr: "midias/qr01.png",
+                duracao: 15000 // 15 segundos
+            },
+            {
+                id: 2,
+                titulo: "Auto Center Caçapava",
+                descricao: "Revisão completa, troca de óleo e alinhamento com preço especial para motoristas e passageiros.",
+                imagem: "midias/anuncio02.jpg",
+                qr: "midias/qr02.png",
+                duracao: 15000
+            },
+            {
+                id: 3,
+                titulo: "DICA DE SEGURANÇA",
+                descricao: "Lembre-se: O uso do cinto de segurança no banco traseiro é obrigatório e salva vidas!",
+                imagem: "midias/anuncio03.jpg",
+                qr: "",
+                duracao: 15000
+            },
+            {
+                id: 4,
+                titulo: "ANUNCIE AQUI",
+                descricao: "Sua marca vista por milhares de passageiros em Caraguá e no Vale do Paraíba. Toque em ANUNCIE no rodapé.",
+                imagem: "midias/anuncio04.jpg",
+                qr: "midias/qr-anuncie.png",
+                duracao: 15000
+            }
+        ];
+
+        // MENSAGENS ROTATIVAS DO RODAPÉ
+        var MENSAGENS_RODAPE = [
+            "Bem-vindo! Tenha uma excelente viagem.",
+            "Use o cinto de segurança também no banco traseiro.",
+            "Conheça nossos anunciantes locais de Caraguá e Caçapava.",
+            "Quer divulgar sua empresa aqui? Toque no botão ANUNCIE."
+        ];
+
+        // VARIÁVEIS DE CONTROLE DO MOTOR
+        var slideAtual = 0;
+        var tempoTrocaSlide = 15000;
+        var timerSlide = null;
+        var timerWatchdog = null;
+        var ultimaAtualizacaoSlide = new Date().getTime();
+
+        // --------------------------------------------------------------------------
+        // B. INICIALIZAÇÃO DO SISTEMA
+        // --------------------------------------------------------------------------
+        window.onload = function() {
+            iniciarRelocio();
+            montarSlidesDOM();
+            iniciarMotorSlides();
+            iniciarRodapeRotativo();
+            iniciarWatchdog();
+
+            // Recursos Online (Opcionais - Se falharem, o sistema continua)
+            buscarClimaOpenMeteo();
+            
+            // Atualiza o clima a cada 20 minutos se houver internet
+            setInterval(function() {
+                buscarClimaOpenMeteo();
+            }, 1200000);
+        };
+
+        // --------------------------------------------------------------------------
+        // C. RELÓGIO E DATA (100% OFFLINE)
+        // --------------------------------------------------------------------------
+        function iniciarRelocio() {
+            function atualizar() {
+                var agora = new Date();
+                var horas = agora.getHours();
+                var minutos = agora.getMinutes();
+
+                horas = horas < 10 ? '0' + horas : horas;
+                minutos = minutos < 10 ? '0' + minutos : minutos;
+
+                document.getElementById('txt-relogio').innerHTML = horas + ':' + minutos;
+
+                // Formatar Data em Português
+                var diasSemana = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+                var meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+
+                var diaSemana = diasSemana[agora.getDay()];
+                var diaNum = agora.getDate();
+                var mes = meses[agora.getMonth()];
+
+                document.getElementById('txt-data').innerHTML = diaSemana + ', ' + diaNum + ' ' + mes;
+            }
+
+            atualizar();
+            setInterval(atualizar, 1000);
+        }
+
+        // --------------------------------------------------------------------------
+        // D. MOTOR DE SLIDES RESISTENTE (100% OFFLINE / MEMÓRIA OTIMIZADA)
+        // --------------------------------------------------------------------------
+        function montarSlidesDOM() {
+            var container = document.getElementById('container-anuncios');
+            var htmlFinal = '';
+
+            for (var i = 0; i < CAMPANHAS.length; i++) {
+                var c = CAMPANHAS[i];
+                var estiloBg = c.imagem ? 'style="background-image: url(\'' + c.imagem + '\');"' : '';
+
+                htmlFinal += '<div class="slide" id="slide-' + i + '" ' + estiloBg + '>';
+                htmlFinal += '  <div class="slide-overlay"></div>';
+                
+                // Conteúdo permanece visível mesmo se a imagem local não existir
+                htmlFinal += '  <div class="slide-conteudo">';
+                htmlFinal += '      <div class="slide-titulo">' + c.titulo + '</div>';
+                htmlFinal += '      <div class="slide-texto">' + c.descricao + '</div>';
+                
+                if (c.qr) {
+                    htmlFinal += '  <div class="slide-qr">';
+                    htmlFinal += '      <img src="' + c.qr + '" alt="QR Code" onerror="this.style.display=\'none\';">';
+                    htmlFinal += '  </div>';
+                }
+                
+                htmlFinal += '  </div>';
+                htmlFinal += '</div>';
+            }
+
+            // Preserva a barra de progresso no HTML
+            var progressoHTML = '<div class="progress-bar-container"><div id="barra-progresso" class="progress-bar"></div></div>';
+            container.innerHTML = htmlFinal + progressoHTML;
+        }
+
+        function iniciarMotorSlides() {
+            exibirSlide(0);
+        }
+
+        function exibirSlide(index) {
+            var total = CAMPANHAS.length;
+            if (index >= total) { index = 0; }
+            if (index < 0) { index = total - 1; }
+
+            // Oculta todos os slides via classe CSS sem destruir nós da memória
+            for (var i = 0; i < total; i++) {
+                var el = document.getElementById('slide-' + i);
+                if (el) {
+                    el.className = 'slide';
+                }
+            }
+
+            // Ativa apenas o slide corrente
+            var slideAtivo = document.getElementById('slide-' + index);
+            if (slideAtivo) {
+                slideAtivo.className = 'slide active';
+            }
+
+            slideAtual = index;
+            ultimaAtualizacaoSlide = new Date().getTime();
+
+            // Animação da barra de progresso
+            animarBarraProgresso(CAMPANHAS[index].duracao);
+
+            // Agenda a próxima troca
+            if (timerSlide) { clearTimeout(timerSlide); }
+            timerSlide = setTimeout(function() {
+                exibirSlide(slideAtual + 1);
+            }, CAMPANHAS[index].duracao);
+        }
+
+        function animarBarraProgresso(duracao) {
+            var barra = document.getElementById('barra-progresso');
+            if (!barra) return;
+
+            /* Reinicia a barra sem usar setInterval a cada 100 ms. */
+            barra.style.webkitTransitionDuration = '0ms';
+            barra.style.transitionDuration = '0ms';
+            barra.style.width = '0%';
+
+            /* Força o navegador a aplicar o estado inicial antes de animar. */
+            barra.offsetWidth;
+
+            barra.style.webkitTransitionDuration = duracao + 'ms';
+            barra.style.transitionDuration = duracao + 'ms';
+            barra.style.width = '100%';
+        }
+
+        // --------------------------------------------------------------------------
+        // E. RECURSO SECUNDÁRIO: CLIMA VIA OPEN-METEO (AJAX ES5)
+        // --------------------------------------------------------------------------
+        function buscarClimaOpenMeteo() {
+            // Coordenadas padrão de Caraguatatuba (-23.6226, -45.4124)
+            var lat = '-23.6226';
+            var lon = '-45.4124';
+            var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true';
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            
+            // Timeout de 3s para NÃO travar nada se estiver sem internet
+            xhr.timeout = 3000;
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            var dados = JSON.parse(xhr.responseText);
+                            var temp = Math.round(dados.current_weather.temperature);
+                            var codigo = dados.current_weather.weathercode;
+                            var descricao = descricaoClima(codigo);
+                            document.getElementById('txt-clima').innerHTML = temp + '°C • ' + descricao;
+                        } catch(e) {
+                            document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
+                        }
+                    } else {
+                        // Fallback em caso de erro na resposta
+                        document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
+                    }
+                }
+            };
+
+            xhr.ontimeout = function() {
+                document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
+            };
+
+            xhr.onerror = function() {
+                document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
+            };
+
+            xhr.send();
+        }
+
+        function descricaoClima(codigo) {
+            if (codigo === 0) return 'Céu limpo';
+            if (codigo >= 1 && codigo <= 3) return 'Parcialmente nublado';
+            if (codigo >= 45 && codigo <= 48) return 'Névoa';
+            if (codigo >= 51 && codigo <= 57) return 'Garoa';
+            if (codigo >= 61 && codigo <= 67) return 'Chuva';
+            if (codigo >= 71 && codigo <= 77) return 'Neve';
+            if (codigo >= 80 && codigo <= 82) return 'Pancadas de chuva';
+            if (codigo >= 85 && codigo <= 86) return 'Pancadas de neve';
+            if (codigo >= 95) return 'Trovoada';
+            return 'Tempo variável';
+        }
+
+        // --------------------------------------------------------------------------
+        // F. RODAPÉ INFORMATIVO ROTATIVO
+        // --------------------------------------------------------------------------
+        function iniciarRodapeRotativo() {
+            var msgIndex = 0;
+            setInterval(function() {
+                msgIndex = (msgIndex + 1) % MENSAGENS_RODAPE.length;
+                var el = document.getElementById('txt-rodape');
+                if (el) {
+                    el.innerHTML = MENSAGENS_RODAPE[msgIndex];
+                }
+            }, 8000);
+        }
+
+        // --------------------------------------------------------------------------
+        // G. CONTROLE DE MODAL E INTERAÇÃO
+        // --------------------------------------------------------------------------
+        function abrirModal() {
+            var modal = document.getElementById('modal-anuncie');
+            if (modal) { modal.style.display = 'block'; }
+        }
+
+        function fecharModal() {
+            var modal = document.getElementById('modal-anuncie');
+            if (modal) { modal.style.display = 'none'; }
+        }
+
+        // --------------------------------------------------------------------------
+        // H. RECURSO DE AUTO-RECUPERAÇÃO (WATCHDOG)
+        // --------------------------------------------------------------------------
+        function iniciarWatchdog() {
+            // Verifica a cada 30 segundos se o motor travou
+            setInterval(function() {
+                var agora = new Date().getTime();
+                var tempoSemTroca = agora - ultimaAtualizacaoSlide;
+
+                // Se passou de 45 segundos sem mudar de slide (limite máximo tolerado)
+                if (tempoSemTroca > 45000) {
+                    exibirSlide(slideAtual + 1);
+                }
+            }, 30000);
+        }
+    </script>
+</body>
+</html>
