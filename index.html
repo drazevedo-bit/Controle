@@ -3,24 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Lá Carvalho — Criativo Animado V2</title>
+<title>Lá Carvalho — Arte Original com Cortes de Pincelada</title>
 <style>
   :root {
     --azul: #0c4f77;
-    --azul2: #6f9fae;
-    --creme: #f5ead7;
+    --azul-pincel: #185a82;
     --ciclo: 15s;
+    /* Substitua pelo caminho local da imagem original se necessário */
+    --img-original: url('58562_2.jpg');
   }
   * { box-sizing: border-box; }
   html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: #111827;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
+    margin: 0; width: 100%; height: 100%;
+    background: #111827; font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden; display: grid; place-items: center;
   }
-  body { display: grid; place-items: center; }
 
   .palco {
     position: relative;
@@ -28,313 +25,192 @@
     height: min(100vh, calc(100vw * 1536 / 1029));
     aspect-ratio: 1029 / 1536;
     overflow: hidden;
-    background:
-      radial-gradient(circle at 85% 82%, rgba(12,79,119,.08), transparent 24%),
-      linear-gradient(180deg, #f7eddc 0%, #f4e7d2 100%);
-    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    background: #f4e7d2 var(--img-original) no-repeat center / cover;
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
   }
 
-  .palco::after {
-    content: "";
-    position: absolute;
-    left: -8%; right: -8%; bottom: -5%; height: 19%;
-    background: var(--azul);
-    transform: rotate(2.2deg);
-    transform-origin: center;
+  /* MÁSCARA / CAMADA DE SOBREPOSIÇÃO PARA ANIMAÇÃO */
+  .overlay-fundo {
+    position: absolute; inset: 0;
+    background: #f4e7d2;
     z-index: 1;
+    /* Deixa transparecer os recortes das fotos */
+    mask-image: radial-gradient(circle at 75% 65%, transparent 35%, black 70%);
+    -webkit-mask-image: radial-gradient(circle at 75% 65%, transparent 35%, black 70%);
   }
 
-  /* LOGO VETORIAL */
+  /* LOGO ORIGINAL DA IMAGEM */
   .logo-wrap {
-    position: absolute;
-    left: 3.2%; top: 2.5%; width: 45%; height: auto;
-    z-index: 4;
-    opacity: 0;
-    transform: scale(.92);
-    animation: logoIn var(--ciclo) ease-in-out infinite;
+    position: absolute; left: 3.2%; top: 2.5%; width: 45%; height: 28%;
+    z-index: 5;
+    background: var(--img-original) no-repeat;
+    background-size: 220% auto;
+    background-position: 0% 0%;
+    /* Recorte em formato de pincelada circular */
+    clip-path: polygon(10% 0%, 90% 0%, 100% 20%, 95% 85%, 80% 100%, 15% 98%, 0% 75%, 2% 20%);
+    opacity: 0; animation: logoIn var(--ciclo) ease-in-out infinite;
   }
 
-  /* BALEIA ILUSTRAÇÃO SVG */
+  /* BALEIA ILUSTRAÇÃO REAL DO PAINEL */
   .baleia-wrap {
-    position: absolute;
-    right: 0; top: 0; width: 51.5%; height: 37.8%;
-    overflow: hidden; z-index: 2;
-    clip-path: polygon(0 0, 100% 0, 100% 98%, 3% 92%);
-  }
-  .baleia-wrap svg {
-    width: 100%; height: 100%; object-fit: cover;
-    transform: scale(1.04);
+    position: absolute; right: 0; top: 0; width: 52%; height: 38%;
+    z-index: 4;
+    background: var(--img-original) no-repeat;
+    background-size: 200% auto;
+    background-position: 100% 0%;
+    /* Corte com curva orgânica para integrar ao fundo */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 8% 92%, 0% 70%);
     animation: baleiaZoom var(--ciclo) ease-in-out infinite;
   }
 
-  /* TIPOGRAFIA E ELEMENTOS */
-  .titulo {
-    position: absolute; left: 5.5%; top: 31.6%; width: 60%; z-index: 5;
-    color: var(--azul);
-    font-size: clamp(18px, 5.4vw, 58px); font-weight: 700; line-height: 1.02;
-    letter-spacing: -0.02em;
-    opacity: 0; transform: translateY(18px);
-    animation: textoIn var(--ciclo) ease infinite;
-  }
-
-  .faixa {
-    position: absolute; left: 8%; top: 38.2%; z-index: 5;
-    background: var(--azul2); color: #fff; padding: 1.2% 4.2% 1.7%;
-    font-size: clamp(17px, 5.2vw, 56px); font-family: "Trebuchet MS", Arial, sans-serif;
-    font-style: italic; border-radius: 3px;
-    transform: rotate(-1.2deg) scaleX(.05); transform-origin: left center;
-    opacity: 0;
-    animation: faixaPinta var(--ciclo) ease infinite;
-  }
-
-  .sub {
-    position: absolute; left: 13%; top: 47%; width: 47%; z-index: 5;
-    text-align: center; color: #153e58;
-    font-size: clamp(11px, 2.55vw, 29px); line-height: 1.28;
-    opacity: 0;
-    animation: fadeIn var(--ciclo) ease infinite;
-  }
-
-  .servicos {
-    position: absolute; left: 8.7%; top: 55.2%; width: 47%; z-index: 5;
-    color: #144b6f; font-size: clamp(10px, 2.05vw, 24px); line-height: 1.52;
-  }
-  .servico {
-    opacity: 0; transform: translateX(-12px);
-    animation: servico var(--ciclo) ease infinite;
-  }
-  .servico:nth-child(1) { animation-delay: 0s; }
-  .servico:nth-child(2) { animation-delay: .18s; }
-  .servico:nth-child(3) { animation-delay: .36s; }
-  .servico:nth-child(4) { animation-delay: .54s; }
-  .servico:nth-child(5) { animation-delay: .72s; }
-  .servico b { display: inline-block; width: 1.6em; text-align: center; margin-right: .45em; }
-
-  /* CARDS DE FOTOS COM CORTE ORGÂNICO E BORDA ARTESANAL */
+  /* CONTAINER DAS FOTOS REAIS COM CORTES DE PINCELADA / POLAROID RÚSTICO */
   .fotos {
-    position: absolute; right: 2.3%; top: 41.5%; width: 41%; height: 50%; z-index: 6;
+    position: absolute; right: 3%; top: 38%; width: 42%; height: 52%; z-index: 6;
   }
+
   .card-foto {
-    position: absolute; width: 92%; left: 4%; height: 30%;
-    background-size: cover; background-position: center;
+    position: absolute; width: 92%; left: 4%; height: 31%;
+    background: #fff; padding: 5px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.25);
     opacity: 0;
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,.22));
     animation: fotoIn var(--ciclo) cubic-bezier(.2,.7,.2,1) infinite;
   }
-  
-  /* CORTES IMPERFEITOS (ESTILO RECORTE ARTESANAL) */
-  .foto1 {
-    top: 0; --r: -2.5deg;
-    clip-path: polygon(2% 3%, 98% 1%, 96% 96%, 3% 98%);
-    animation-delay: 0s;
-  }
-  .foto2 {
-    top: 31%; --r: 3deg;
-    clip-path: polygon(3% 1%, 97% 4%, 99% 95%, 1% 97%);
-    animation-delay: .35s;
-  }
-  .foto3 {
-    top: 62%; --r: -1.8deg;
-    clip-path: polygon(1% 4%, 99% 1%, 97% 98%, 2% 94%);
-    animation-delay: .7s;
-  }
 
-  .card-inner {
+  .foto-img {
     width: 100%; height: 100%;
-    background: #ffffff;
-    padding: 6px;
-    box-sizing: border-box;
+    background: var(--img-original) no-repeat;
+    background-size: 240% auto;
   }
 
-  /* BOTÃO CTA SVG EMBUTIDO */
+  /* CORTES ORGÂNICOS COM FORMATO DE BORDAS RASGADAS/PINCELADAS */
+  .foto1 {
+    top: 0; --r: -2.5deg; animation-delay: 0s;
+    clip-path: polygon(3% 2%, 97% 0%, 100% 95%, 95% 98%, 2% 94%, 0% 8%);
+  }
+  .foto1 .foto-img { background-position: 95% 44%; }
+
+  .foto2 {
+    top: 32%; --r: 2.8deg; animation-delay: .35s;
+    clip-path: polygon(1% 4%, 98% 1%, 96% 97%, 4% 100%, 0% 90%);
+  }
+  .foto2 .foto-img { background-position: 95% 62%; }
+
+  .foto3 {
+    top: 64%; --r: -1.5deg; animation-delay: .7s;
+    clip-path: polygon(4% 1%, 99% 3%, 97% 96%, 2% 98%, 0% 12%);
+  }
+  .foto3 .foto-img { background-position: 95% 80%; }
+
+  /* TEXTOS E SERVIÇOS */
+  .textos-wrap {
+    position: absolute; left: 6%; top: 31%; width: 50%; z-index: 5;
+  }
+  .titulo {
+    color: var(--azul); font-size: clamp(18px, 5.2vw, 56px); font-weight: 700;
+    line-height: 1.05; opacity: 0; animation: textoIn var(--ciclo) ease infinite;
+  }
+  .faixa {
+    display: inline-block; background: #6f9fae; color: #fff;
+    padding: 1% 4%; margin-top: 6px;
+    font-size: clamp(16px, 4.8vw, 50px); font-style: italic;
+    border-radius: 4px; transform: rotate(-1.5deg);
+    opacity: 0; animation: faixaIn var(--ciclo) ease infinite;
+  }
+  .sub {
+    margin-top: 12px; color: #153e58; font-size: clamp(11px, 2.5vw, 26px);
+    line-height: 1.3; opacity: 0; animation: fadeIn var(--ciclo) ease infinite;
+  }
+  .servicos {
+    margin-top: 16px; color: #144b6f; font-size: clamp(10px, 2.1vw, 22px); line-height: 1.55;
+  }
+  .servico { opacity: 0; animation: servico var(--ciclo) ease infinite; }
+  .servico:nth-child(1) { animation-delay: 0s; }
+  .servico:nth-child(2) { animation-delay: .15s; }
+  .servico:nth-child(3) { animation-delay: .30s; }
+  .servico:nth-child(4) { animation-delay: .45s; }
+  .servico:nth-child(5) { animation-delay: .60s; }
+
+  /* BOTÃO SOLICITE SEU ORÇAMENTO EM FORMATO DE PINCELADA REAL */
   .cta-wrap {
-    position: absolute; left: 7.2%; top: 72.6%; width: 47%; z-index: 7;
-    opacity: 0; transform: scale(.92);
+    position: absolute; left: 6%; top: 73%; width: 48%; height: 11%;
+    z-index: 7; opacity: 0;
     animation: ctaPulse var(--ciclo) ease-in-out infinite;
+  }
+  .cta-btn {
+    width: 100%; height: 100%;
+    background: var(--azul-pincel);
+    color: #fff; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-weight: bold; font-size: clamp(12px, 2.8vw, 28px);
+    letter-spacing: 1px; text-transform: uppercase;
+    /* Formato de pincelada rústica */
+    clip-path: polygon(5% 20%, 95% 10%, 100% 50%, 92% 88%, 8% 95%, 0% 60%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
 
   .frase {
-    position: absolute; left: 7%; bottom: 6.3%; width: 45%; z-index: 8;
-    color: #fff; font-family: "Trebuchet MS", Arial, sans-serif;
-    font-size: clamp(12px, 3vw, 33px); font-style: italic; line-height: 1.2;
-    opacity: 0; transform: translateY(16px);
-    animation: fraseIn var(--ciclo) ease infinite;
+    position: absolute; left: 6%; bottom: 6%; width: 45%; z-index: 8;
+    color: #fff; font-size: clamp(12px, 2.8vw, 30px); font-style: italic; line-height: 1.25;
+    opacity: 0; animation: fraseIn var(--ciclo) ease infinite;
   }
 
-  .assinatura {
-    position: absolute; right: 3%; bottom: 1.6%; z-index: 9;
-    color: #f6e8cc; font-size: clamp(9px, 1.45vw, 16px); opacity: .85;
-    letter-spacing: .08em; text-transform: uppercase;
-  }
-
-  .reiniciar {
-    position: absolute; right: 2%; top: 1.5%; z-index: 20;
-    border: 0; background: rgba(0,0,0,.36); color: #fff;
-    border-radius: 999px; padding: 7px 10px; font-size: 12px; cursor: pointer; opacity: .25;
-  }
-  .reiniciar:hover { opacity: .85; }
-
-  /* ANIMAÇÕES KEYFRAMES */
-  @keyframes logoIn {
-    0%,3% { opacity: 0; transform: scale(.92); }
-    8%,88% { opacity: 1; transform: scale(1); }
-    96%,100% { opacity: 0; transform: scale(1.01); }
-  }
-  @keyframes baleiaZoom {
-    0% { transform: scale(1.04) translate3d(0,0,0); }
-    88% { transform: scale(1.12) translate3d(-1.5%,-1%,0); }
-    100% { transform: scale(1.04); }
-  }
-  @keyframes textoIn {
-    0%,10% { opacity: 0; transform: translateY(18px); }
-    16%,89% { opacity: 1; transform: translateY(0); }
-    96%,100% { opacity: 0; }
-  }
-  @keyframes faixaPinta {
-    0%,14% { opacity: 0; transform: rotate(-1.2deg) scaleX(.05); }
-    21%,89% { opacity: 1; transform: rotate(-1.2deg) scaleX(1); }
-    96%,100% { opacity: 0; }
-  }
-  @keyframes fadeIn {
-    0%,21% { opacity: 0; }
-    27%,89% { opacity: 1; }
-    96%,100% { opacity: 0; }
-  }
-  @keyframes servico {
-    0%,28% { opacity: 0; transform: translateX(-12px); }
-    36%,89% { opacity: 1; transform: translateX(0); }
-    96%,100% { opacity: 0; }
-  }
+  /* KEYFRAMES */
+  @keyframes logoIn { 0%,3% { opacity:0; } 8%,88% { opacity:1; } 96%,100% { opacity:0; } }
+  @keyframes baleiaZoom { 0% { transform: scale(1); } 88% { transform: scale(1.06); } 100% { transform: scale(1); } }
+  @keyframes textoIn { 0%,10% { opacity:0; transform: translateY(12px); } 16%,89% { opacity:1; transform: translateY(0); } 96%,100% { opacity:0; } }
+  @keyframes faixaIn { 0%,14% { opacity:0; transform: rotate(-1.5deg) scaleX(.2); } 21%,89% { opacity:1; transform: rotate(-1.5deg) scaleX(1); } 96%,100% { opacity:0; } }
+  @keyframes fadeIn { 0%,21% { opacity:0; } 27%,89% { opacity:1; } 96%,100% { opacity:0; } }
+  @keyframes servico { 0%,28% { opacity:0; transform: translateX(-10px); } 36%,89% { opacity:1; transform: translateX(0); } 96%,100% { opacity:0; } }
   @keyframes fotoIn {
-    0%,34% { opacity: 0; filter: blur(1px) drop-shadow(0 2px 4px rgba(0,0,0,.1)); transform: translateX(25px) rotate(var(--r)) scale(.95); }
-    44%,89% { opacity: 1; filter: blur(0) drop-shadow(0 6px 12px rgba(0,0,0,.22)); transform: translateX(0) rotate(var(--r)) scale(1); }
-    96%,100% { opacity: 0; }
+    0%,34% { opacity:0; transform: translateX(30px) rotate(var(--r)) scale(.92); }
+    44%,89% { opacity:1; transform: translateX(0) rotate(var(--r)) scale(1); }
+    96%,100% { opacity:0; }
   }
   @keyframes ctaPulse {
-    0%,50% { opacity: 0; transform: scale(.92); }
-    57% { opacity: 1; transform: scale(1); }
-    66% { transform: scale(1.045); }
-    73% { transform: scale(1); }
-    80% { transform: scale(1.035); }
-    89% { opacity: 1; transform: scale(1); }
-    96%,100% { opacity: 0; transform: scale(.97); }
+    0%,50% { opacity:0; transform: scale(.92); }
+    57%,89% { opacity:1; transform: scale(1); }
+    66% { transform: scale(1.05); } 73% { transform: scale(1); }
+    96%,100% { opacity:0; }
   }
-  @keyframes fraseIn {
-    0%,62% { opacity: 0; transform: translateY(16px); }
-    70%,89% { opacity: 1; transform: translateY(0); }
-    96%,100% { opacity: 0; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 1ms!important; animation-iteration-count: 1!important; }
-    .logo-wrap, .titulo, .faixa, .sub, .servico, .card-foto, .cta-wrap, .frase { opacity: 1!important; transform: none!important; }
-  }
+  @keyframes fraseIn { 0%,62% { opacity:0; transform: translateY(12px); } 70%,89% { opacity:1; transform: translateY(0); } 96%,100% { opacity:0; } }
 </style>
 </head>
 <body>
-  <main class="palco" id="palco" aria-label="Anúncio animado Lá Carvalho">
-    <button class="reiniciar" onclick="reiniciar()" title="Reiniciar animação">↻</button>
+  <main class="palco">
+    <div class="overlay-fundo"></div>
 
-    <!-- LOGO TIPO PINCELADA EMBUTIDO -->
-    <div class="logo-wrap">
-      <svg viewBox="0 0 300 280" width="100%" height="100%">
-        <path d="M 150 15 C 220 15, 280 60, 275 135 C 270 210, 210 265, 140 260 C 70 255, 15 200, 20 130 C 25 60, 80 15, 150 15 Z" fill="#0c4f77"/>
-        <path d="M 240 40 L 275 10 L 285 20 L 250 50 Z" fill="#0c4f77"/>
-        <path d="M 230 50 C 240 40, 260 60, 245 75 Z" fill="#ffffff"/>
-        <text x="145" y="105" text-anchor="middle" fill="#ffffff" font-family="'Brush Script MT', cursive, Georgia, serif" font-size="48">Lá</text>
-        <text x="145" y="155" text-anchor="middle" fill="#ffffff" font-family="'Brush Script MT', cursive, Georgia, serif" font-size="52">Carvalho</text>
-        <text x="145" y="188" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold" letter-spacing="2">PROJETOS ARTÍSTICOS</text>
-        <line x1="90" y1="198" x2="200" y2="198" stroke="#ffffff" stroke-width="1.5"/>
-        <text x="145" y="222" text-anchor="middle" fill="#f5ead7" font-family="'Brush Script MT', cursive, Georgia, serif" font-size="20">feito a mão</text>
-      </svg>
+    <div class="logo-wrap"></div>
+    <div class="baleia-wrap"></div>
+
+    <div class="textos-wrap">
+      <div class="titulo">Pinturas em parede</div>
+      <div class="faixa">personalizadas</div>
+      <div class="sub">Transforme seus espaços<br>com arte, cor e personalidade!</div>
+
+      <div class="servicos">
+        <div class="servico">♡ Quartos infantis</div>
+        <div class="servico">⌂ Ambientes residenciais</div>
+        <div class="servico">▦ Empresas e comércios</div>
+        <div class="servico">◊ Logotipos e identidade visual</div>
+        <div class="servico">✎ Murais, lettering e aquarela</div>
+      </div>
     </div>
 
-    <!-- BALEIA ILUSTRAÇÃO EMBUTIDA -->
-    <div class="baleia-wrap">
-      <svg viewBox="0 0 500 380" preserveAspectRatio="xMidYMid slice">
-        <rect width="500" height="380" fill="#edf7fc"/>
-        <path d="M0 280 Q 120 230 250 290 T 500 250 L 500 380 L 0 380 Z" fill="#7dd3fc" opacity="0.5"/>
-        <path d="M0 310 Q 150 270 300 320 T 500 290 L 500 380 L 0 380 Z" fill="#38bdf8" opacity="0.6"/>
-        <path d="M 80 180 C 160 70, 360 60, 440 130 C 480 165 490 220 420 230 C 320 245 180 250 80 180 Z" fill="#0c4f77"/>
-        <path d="M 440 130 C 470 90 495 80 485 125 C 475 160 450 150 440 130 Z" fill="#0c4f77"/>
-        <path d="M 120 190 C 200 230, 330 235, 410 215 C 330 240, 190 235, 120 190 Z" fill="#6f9fae"/>
-        <circle cx="130" cy="165" r="4" fill="#ffffff"/>
-        <path d="M 200 280 Q 215 275 230 280 Q 215 285 200 280 Z" fill="#0c4f77"/>
-        <path d="M 240 300 Q 255 295 270 300 Q 255 305 240 300 Z" fill="#0c4f77"/>
-      </svg>
-    </div>
-
-    <div class="titulo">Pinturas em parede</div>
-    <div class="faixa">personalizadas</div>
-    <div class="sub">Transforme seus espaços<br>com arte, cor e personalidade!</div>
-
-    <section class="servicos" aria-label="Serviços">
-      <div class="servico"><b>♡</b>Quartos infantis</div>
-      <div class="servico"><b>⌂</b>Ambientes residenciais</div>
-      <div class="servico"><b>▦</b>Empresas e comércios</div>
-      <div class="servico"><b>◊</b>Logotipos e identidade visual</div>
-      <div class="servico"><b>✎</b>Murais, lettering e aquarela</div>
-    </section>
-
-    <!-- FOTOS COM CORTE ORGÂNICO ARTESANAL -->
+    <!-- FOTOS REAIS RECORTADAS COM FORMATO DE PINCELADA/RASGO ARTESANAL -->
     <div class="fotos">
-      <!-- Foto 1: Sol e Ondas -->
-      <div class="card-foto foto1">
-        <div class="card-inner">
-          <svg viewBox="0 0 200 130" width="100%" height="100%" preserveAspectRatio="none">
-            <rect width="200" height="130" fill="#fdf8ef"/>
-            <circle cx="100" cy="45" r="22" fill="#f59e0b"/>
-            <path d="M 0 100 Q 50 70 100 95 T 200 85 L 200 130 L 0 130 Z" fill="#0d9488"/>
-            <path d="M 0 112 Q 60 90 120 110 T 200 100 L 200 130 L 0 130 Z" fill="#ea580c"/>
-          </svg>
-        </div>
-      </div>
-      <!-- Foto 2: Árvore / Botânico -->
-      <div class="card-foto foto2">
-        <div class="card-inner">
-          <svg viewBox="0 0 200 130" width="100%" height="100%" preserveAspectRatio="none">
-            <rect width="200" height="130" fill="#fcf8f2"/>
-            <path d="M 20 130 C 40 80, 80 50, 160 20" stroke="#b45309" stroke-width="6" fill="none"/>
-            <circle cx="70" cy="65" r="12" fill="#047857" opacity="0.8"/>
-            <circle cx="110" cy="45" r="16" fill="#065f46" opacity="0.8"/>
-            <circle cx="140" cy="30" r="10" fill="#047857" opacity="0.8"/>
-            <circle cx="40" cy="90" r="14" fill="#0f766e" opacity="0.8"/>
-          </svg>
-        </div>
-      </div>
-      <!-- Foto 3: Lettering -->
-      <div class="card-foto foto3">
-        <div class="card-inner">
-          <svg viewBox="0 0 200 130" width="100%" height="100%" preserveAspectRatio="none">
-            <rect width="200" height="130" fill="#fefce8"/>
-            <path d="M 10 20 Q 50 5, 90 30 T 180 20 L 190 110 Q 120 125 50 100 Z" fill="#fde68a" opacity="0.6"/>
-            <text x="100" y="45" text-anchor="middle" fill="#0c4f77" font-family="Arial, sans-serif" font-weight="bold" font-size="15">SONHE</text>
-            <text x="100" y="70" text-anchor="middle" fill="#0c4f77" font-family="Arial, sans-serif" font-weight="bold" font-size="15">PLANEJE</text>
-            <text x="100" y="95" text-anchor="middle" fill="#0c4f77" font-family="Arial, sans-serif" font-weight="bold" font-size="15">CONQUISTE</text>
-          </svg>
-        </div>
-      </div>
+      <div class="card-foto foto1"><div class="foto-img"></div></div>
+      <div class="card-foto foto2"><div class="foto-img"></div></div>
+      <div class="card-foto foto3"><div class="foto-img"></div></div>
     </div>
 
-    <!-- BOTÃO CTA SVG -->
     <div class="cta-wrap">
-      <svg viewBox="0 0 260 75" width="100%" height="100%">
-        <path d="M 10 38 C 15 10, 50 8, 130 10 C 210 12, 250 15, 252 38 C 255 62, 215 68, 130 65 C 45 62, 5 60, 10 38 Z" fill="#0c4f77"/>
-        <text x="130" y="36" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold" font-size="15" letter-spacing="1">SOLICITE</text>
-        <text x="130" y="54" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold" font-size="15" letter-spacing="1">SEU ORÇAMENTO</text>
-      </svg>
+      <div class="cta-btn">
+        <span>Solicite</span>
+        <span>Seu Orçamento</span>
+      </div>
     </div>
 
     <div class="frase">Cada projeto é único,<br>assim como você!</div>
-    <div class="assinatura">Criativo animado V2 • 15 s</div>
   </main>
-
-<script>
-function reiniciar(){
-  const p = document.getElementById('palco');
-  const clone = p.cloneNode(true);
-  p.replaceWith(clone);
-}
-</script>
 </body>
 </html>
