@@ -1,677 +1,340 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mídia de Bordo - Galaxy Tab E</title>
-    
-    <style>
-        /* ==========================================================================
-           1. ESTILOS BASE & RESET (Compatível com Android KitKat)
-           ========================================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Lá Carvalho — Criativo Animado V2</title>
+<style>
+  :root {
+    --azul: #0c4f77;
+    --azul2: #6f9fae;
+    --creme: #f5ead7;
+    --ciclo: 15s;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #111827;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+  }
+  body { display: grid; place-items: center; }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000000;
-            font-family: Arial, Helvetica, sans-serif;
-            color: #FFFFFF;
-        }
+  .palco {
+    position: relative;
+    width: min(100vw, calc(100vh * 1029 / 1536));
+    height: min(100vh, calc(100vw * 1536 / 1029));
+    aspect-ratio: 1029 / 1536;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 85% 82%, rgba(12,79,119,.08), transparent 24%),
+      linear-gradient(180deg, #f7eddc 0%, #f4e7d2 100%);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
 
-        /* Container principal em Grid/Flex Layout NATIVO */
-        .app-container {
-            width: 100%;
-            height: 100%;
-            display: block;
-            position: relative;
-        }
+  .palco::after {
+    content: "";
+    position: absolute;
+    left: -8%; right: -8%; bottom: -5%; height: 19%;
+    background: var(--azul);
+    transform: rotate(2.2deg);
+    transform-origin: center;
+    z-index: 1;
+  }
 
-        /* ==========================================================================
-           2. ÁREA DO TOPO (Informações de Hora, Data e Clima)
-           ========================================================================== */
-        .topo {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 12%;
-            background-color: #0a0e17;
-            border-bottom: 2px solid #1e293b;
-            padding: 10px 20px;
-            display: block;
-            z-index: 10;
-        }
+  /* LOGO VETORIAL */
+  .logo-wrap {
+    position: absolute;
+    left: 3.2%; top: 2.5%; width: 45%; height: auto;
+    z-index: 4;
+    opacity: 0;
+    transform: scale(.92);
+    animation: logoIn var(--ciclo) ease-in-out infinite;
+  }
 
-        .topo-esquerda {
-            float: left;
-            width: 50%;
-            height: 100%;
-        }
+  /* BALEIA ILUSTRAÇÃO SVG */
+  .baleia-wrap {
+    position: absolute;
+    right: 0; top: 0; width: 51.5%; height: 37.8%;
+    overflow: hidden; z-index: 2;
+    clip-path: polygon(0 0, 100% 0, 100% 98%, 3% 92%);
+  }
+  .baleia-wrap svg {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.04);
+    animation: baleiaZoom var(--ciclo) ease-in-out infinite;
+  }
 
-        .topo-direita {
-            float: right;
-            width: 50%;
-            height: 100%;
-            text-align: right;
-        }
+  /* TIPOGRAFIA E ELEMENTOS */
+  .titulo {
+    position: absolute; left: 5.5%; top: 31.6%; width: 60%; z-index: 5;
+    color: var(--azul);
+    font-size: clamp(18px, 5.4vw, 58px); font-weight: 700; line-height: 1.02;
+    letter-spacing: -0.02em;
+    opacity: 0; transform: translateY(18px);
+    animation: textoIn var(--ciclo) ease infinite;
+  }
 
-        .relogio {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffffff;
-            line-height: 1;
-            margin-top: 2px;
-        }
+  .faixa {
+    position: absolute; left: 8%; top: 38.2%; z-index: 5;
+    background: var(--azul2); color: #fff; padding: 1.2% 4.2% 1.7%;
+    font-size: clamp(17px, 5.2vw, 56px); font-family: "Trebuchet MS", Arial, sans-serif;
+    font-style: italic; border-radius: 3px;
+    transform: rotate(-1.2deg) scaleX(.05); transform-origin: left center;
+    opacity: 0;
+    animation: faixaPinta var(--ciclo) ease infinite;
+  }
 
-        .data {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-top: 4px;
-            text-transform: capitalize;
-        }
+  .sub {
+    position: absolute; left: 13%; top: 47%; width: 47%; z-index: 5;
+    text-align: center; color: #153e58;
+    font-size: clamp(11px, 2.55vw, 29px); line-height: 1.28;
+    opacity: 0;
+    animation: fadeIn var(--ciclo) ease infinite;
+  }
 
-        .cidade {
-            font-size: 18px;
-            font-weight: bold;
-            color: #38bdf8;
-            line-height: 1;
-            margin-top: 2px;
-        }
+  .servicos {
+    position: absolute; left: 8.7%; top: 55.2%; width: 47%; z-index: 5;
+    color: #144b6f; font-size: clamp(10px, 2.05vw, 24px); line-height: 1.52;
+  }
+  .servico {
+    opacity: 0; transform: translateX(-12px);
+    animation: servico var(--ciclo) ease infinite;
+  }
+  .servico:nth-child(1) { animation-delay: 0s; }
+  .servico:nth-child(2) { animation-delay: .18s; }
+  .servico:nth-child(3) { animation-delay: .36s; }
+  .servico:nth-child(4) { animation-delay: .54s; }
+  .servico:nth-child(5) { animation-delay: .72s; }
+  .servico b { display: inline-block; width: 1.6em; text-align: center; margin-right: .45em; }
 
-        .clima {
-            font-size: 14px;
-            color: #cbd5e1;
-            margin-top: 4px;
-        }
+  /* CARDS DE FOTOS COM CORTE ORGÂNICO E BORDA ARTESANAL */
+  .fotos {
+    position: absolute; right: 2.3%; top: 41.5%; width: 41%; height: 50%; z-index: 6;
+  }
+  .card-foto {
+    position: absolute; width: 92%; left: 4%; height: 30%;
+    background-size: cover; background-position: center;
+    opacity: 0;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,.22));
+    animation: fotoIn var(--ciclo) cubic-bezier(.2,.7,.2,1) infinite;
+  }
+  
+  /* CORTES IMPERFEITOS (ESTILO RECORTE ARTESANAL) */
+  .foto1 {
+    top: 0; --r: -2.5deg;
+    clip-path: polygon(2% 3%, 98% 1%, 96% 96%, 3% 98%);
+    animation-delay: 0s;
+  }
+  .foto2 {
+    top: 31%; --r: 3deg;
+    clip-path: polygon(3% 1%, 97% 4%, 99% 95%, 1% 97%);
+    animation-delay: .35s;
+  }
+  .foto3 {
+    top: 62%; --r: -1.8deg;
+    clip-path: polygon(1% 4%, 99% 1%, 97% 98%, 2% 94%);
+    animation-delay: .7s;
+  }
 
-        /* ==========================================================================
-           3. ÁREA PRINCIPAL DE ANÚNCIOS (15 Segundos por Slide)
-           ========================================================================== */
-        .anuncios {
-            position: absolute;
-            top: 12%;
-            left: 0;
-            width: 100%;
-            height: 78%;
-            background-color: #05070a;
-            overflow: hidden;
-            z-index: 5;
-        }
+  .card-inner {
+    width: 100%; height: 100%;
+    background: #ffffff;
+    padding: 6px;
+    box-sizing: border-box;
+  }
 
-        /* Sistema de Slides em Camadas na Memória */
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            visibility: hidden;
-            -webkit-transition: opacity 0.5s ease-in-out;
-            transition: opacity 0.5s ease-in-out;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: contain;
-        }
+  /* BOTÃO CTA SVG EMBUTIDO */
+  .cta-wrap {
+    position: absolute; left: 7.2%; top: 72.6%; width: 47%; z-index: 7;
+    opacity: 0; transform: scale(.92);
+    animation: ctaPulse var(--ciclo) ease-in-out infinite;
+  }
 
-        .slide.active {
-            opacity: 1;
-            visibility: visible;
-        }
+  .frase {
+    position: absolute; left: 7%; bottom: 6.3%; width: 45%; z-index: 8;
+    color: #fff; font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: clamp(12px, 3vw, 33px); font-style: italic; line-height: 1.2;
+    opacity: 0; transform: translateY(16px);
+    animation: fraseIn var(--ciclo) ease infinite;
+  }
 
-        /* Camada simples de contraste para manter o texto legível sobre as imagens */
-        .slide-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.42);
-            z-index: 1;
-        }
+  .assinatura {
+    position: absolute; right: 3%; bottom: 1.6%; z-index: 9;
+    color: #f6e8cc; font-size: clamp(9px, 1.45vw, 16px); opacity: .85;
+    letter-spacing: .08em; text-transform: uppercase;
+  }
 
-        /* Slide de Fallback/Informativo (Caso a imagem não exista) */
-        .slide-conteudo {
-            position: relative;
-            z-index: 2;
-            padding: 40px 20px;
-            text-align: center;
-            height: 100%;
-            display: block;
-        }
+  .reiniciar {
+    position: absolute; right: 2%; top: 1.5%; z-index: 20;
+    border: 0; background: rgba(0,0,0,.36); color: #fff;
+    border-radius: 999px; padding: 7px 10px; font-size: 12px; cursor: pointer; opacity: .25;
+  }
+  .reiniciar:hover { opacity: .85; }
 
-        .slide-titulo {
-            font-size: 28px;
-            color: #f59e0b;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
+  /* ANIMAÇÕES KEYFRAMES */
+  @keyframes logoIn {
+    0%,3% { opacity: 0; transform: scale(.92); }
+    8%,88% { opacity: 1; transform: scale(1); }
+    96%,100% { opacity: 0; transform: scale(1.01); }
+  }
+  @keyframes baleiaZoom {
+    0% { transform: scale(1.04) translate3d(0,0,0); }
+    88% { transform: scale(1.12) translate3d(-1.5%,-1%,0); }
+    100% { transform: scale(1.04); }
+  }
+  @keyframes textoIn {
+    0%,10% { opacity: 0; transform: translateY(18px); }
+    16%,89% { opacity: 1; transform: translateY(0); }
+    96%,100% { opacity: 0; }
+  }
+  @keyframes faixaPinta {
+    0%,14% { opacity: 0; transform: rotate(-1.2deg) scaleX(.05); }
+    21%,89% { opacity: 1; transform: rotate(-1.2deg) scaleX(1); }
+    96%,100% { opacity: 0; }
+  }
+  @keyframes fadeIn {
+    0%,21% { opacity: 0; }
+    27%,89% { opacity: 1; }
+    96%,100% { opacity: 0; }
+  }
+  @keyframes servico {
+    0%,28% { opacity: 0; transform: translateX(-12px); }
+    36%,89% { opacity: 1; transform: translateX(0); }
+    96%,100% { opacity: 0; }
+  }
+  @keyframes fotoIn {
+    0%,34% { opacity: 0; filter: blur(1px) drop-shadow(0 2px 4px rgba(0,0,0,.1)); transform: translateX(25px) rotate(var(--r)) scale(.95); }
+    44%,89% { opacity: 1; filter: blur(0) drop-shadow(0 6px 12px rgba(0,0,0,.22)); transform: translateX(0) rotate(var(--r)) scale(1); }
+    96%,100% { opacity: 0; }
+  }
+  @keyframes ctaPulse {
+    0%,50% { opacity: 0; transform: scale(.92); }
+    57% { opacity: 1; transform: scale(1); }
+    66% { transform: scale(1.045); }
+    73% { transform: scale(1); }
+    80% { transform: scale(1.035); }
+    89% { opacity: 1; transform: scale(1); }
+    96%,100% { opacity: 0; transform: scale(.97); }
+  }
+  @keyframes fraseIn {
+    0%,62% { opacity: 0; transform: translateY(16px); }
+    70%,89% { opacity: 1; transform: translateY(0); }
+    96%,100% { opacity: 0; }
+  }
 
-        .slide-texto {
-            font-size: 20px;
-            color: #e2e8f0;
-            line-height: 1.4;
-            margin-bottom: 25px;
-        }
-
-        .slide-qr {
-            width: 180px;
-            height: 180px;
-            background-color: #ffffff;
-            padding: 10px;
-            margin: 0 auto;
-            border-radius: 8px;
-        }
-
-        .slide-qr img {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        /* Barra de Progresso do Slide (15s) */
-        .progress-bar-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.1);
-            z-index: 20;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #f59e0b;
-            -webkit-transition-property: width;
-            -webkit-transition-timing-function: linear;
-            transition-property: width;
-            transition-timing-function: linear;
-        }
-
-        /* ==========================================================================
-           4. ÁREA DO RODAPÉ (Informativo e Botão Anuncie Aqui)
-           ========================================================================== */
-        .rodape {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 10%;
-            background-color: #0a0e17;
-            border-top: 2px solid #1e293b;
-            padding: 0 15px;
-            z-index: 10;
-        }
-
-        .rodape-info {
-            float: left;
-            width: 65%;
-            height: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .marquee-text {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            line-height: 55px;
-            font-size: 15px;
-            color: #e2e8f0;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .rodape-botao {
-            float: right;
-            width: 33%;
-            height: 100%;
-            padding: 8px 0;
-        }
-
-        .btn-anuncie {
-            width: 100%;
-            height: 100%;
-            background-color: #2563eb;
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .btn-anuncie:active {
-            background-color: #1d4ed8;
-        }
-
-        /* ==========================================================================
-           5. MODAL "ANUNCIE AQUI" (100% Offline via QR Code Local)
-           ========================================================================== */
-        .modal {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.92);
-            z-index: 100;
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .modal-conteudo {
-            background-color: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 12px;
-            padding: 25px 15px;
-            max-width: 90%;
-            margin: 20px auto;
-        }
-
-        .modal-titulo {
-            font-size: 24px;
-            color: #38bdf8;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .modal-subtitulo {
-            font-size: 15px;
-            color: #94a3b8;
-            margin-bottom: 20px;
-        }
-
-        .modal-qr {
-            width: 200px;
-            height: 200px;
-            background-color: #ffffff;
-            padding: 10px;
-            margin: 0 auto 20px auto;
-            border-radius: 8px;
-        }
-
-        .modal-qr img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .modal-contato {
-            font-size: 18px;
-            color: #f59e0b;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .btn-fechar {
-            background-color: #dc2626;
-            color: #ffffff;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 1ms!important; animation-iteration-count: 1!important; }
+    .logo-wrap, .titulo, .faixa, .sub, .servico, .card-foto, .cta-wrap, .frase { opacity: 1!important; transform: none!important; }
+  }
+</style>
 </head>
 <body>
+  <main class="palco" id="palco" aria-label="Anúncio animado Lá Carvalho">
+    <button class="reiniciar" onclick="reiniciar()" title="Reiniciar animação">↻</button>
 
-    <div class="app-container">
-        <!-- ==================== 1. TOPO ==================== -->
-        <div class="topo">
-            <div class="topo-esquerda">
-                <div id="txt-relogio" class="relogio">00:00</div>
-                <div id="txt-data" class="data">Carregando...</div>
-            </div>
-            <div class="topo-direita">
-                <div id="txt-cidade" class="cidade">Caraguatatuba</div>
-                <div id="txt-clima" class="clima">--°C • Conectando...</div>
-            </div>
-        </div>
-
-        <!-- ==================== 2. ÁREA DE ANÚNCIOS ==================== -->
-        <div class="anuncios" id="container-anuncios">
-            <!-- Os slides são renderizados via JS na inicialização -->
-            <div class="progress-bar-container">
-                <div id="barra-progresso" class="progress-bar"></div>
-            </div>
-        </div>
-
-        <!-- ==================== 3. RODAPÉ ==================== -->
-        <div class="rodape">
-            <div class="rodape-info">
-                <div id="txt-rodape" class="marquee-text">Tenha uma ótima viagem! • Use o cinto de segurança.</div>
-            </div>
-            <div class="rodape-botao">
-                <button type="button" class="btn-anuncie" onclick="abrirModal()">ANUNCIE</button>
-            </div>
-        </div>
-
-        <!-- ==================== 4. MODAL ANUNCIE AQUI ==================== -->
-        <div id="modal-anuncie" class="modal">
-            <div class="modal-conteudo">
-                <div class="modal-titulo">ANUNCIE NESTA TELA</div>
-                <div class="modal-subtitulo">Divulgue sua empresa para centenas de passageiros da região!</div>
-                
-                <div class="modal-qr">
-                    <!-- Imagem local do QR Code de contato -->
-                    <img src="midias/qr-anuncie.png" alt="QR Code WhatsApp" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewbox=\'0 0 100 100\'><text x=\'10\' y=\'55\' font-size=\'12\'>QR CODE LOCAL</text></svg>'">
-                </div>
-
-                <div class="modal-contato">WhatsApp: (12) 99999-9999</div>
-                <button type="button" class="btn-fechar" onclick="fecharModal()">FECHAR</button>
-            </div>
-        </div>
+    <!-- LOGO TIPO PINCELADA EMBUTIDO -->
+    <div class="logo-wrap">
+      <svg viewBox="0 0 300 280" width="100%" height="100%">
+        <path d="M 150 15 C 220 15, 280 60, 275 135 C 270 210, 210 265, 140 260 C 70 255, 15 200, 20 130 C 25 60, 80 15, 150 15 Z" fill="#0c4f77"/>
+        <path d="M 240 40 L 275 10 L 285 20 L 250 50 Z" fill="#0c4f77"/>
+        <path d="M 230 50 C 240 40, 260 60, 245 75 Z" fill="#ffffff"/>
+        <text x="145" y="105" text-anchor="middle" fill="#ffffff" font-family="'Brush Script MT', cursive, Georgia, serif" font-size="48">Lá</text>
+        <text x="145" y="155" text-anchor="middle" fill="#ffffff" font-family="'Brush Script MT', cursive, Georgia, serif" font-size="52">Carvalho</text>
+        <text x="145" y="188" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold" letter-spacing="2">PROJETOS ARTÍSTICOS</text>
+        <line x1="90" y1="198" x2="200" y2="198" stroke="#ffffff" stroke-width="1.5"/>
+        <text x="145" y="222" text-anchor="middle" fill="#f5ead7" font-family="'Brush Script MT', cursive, Georgia, serif" font-size="20">feito a mão</text>
+      </svg>
     </div>
 
-    <!-- ==========================================================================
-       6. JAVASCRIPT ES5 (Projetado para compatibilidade com Android 4.4.4 / KitKat)
-       ========================================================================== -->
-    <script type="text/javascript">
-        // --------------------------------------------------------------------------
-        // A. CADASTRO DE ANÚNCIOS (LOCAL)
-        // --------------------------------------------------------------------------
-        var CAMPANHAS = [
-            {
-                id: 1,
-                titulo: "Restaurante Beira Mar",
-                descricao: "O melhor da culinária caiçara em Caraguatatuba. Apresente este anúncio e ganhe 10% de desconto!",
-                imagem: "midias/Anuncio01.png",
-                qr: "midias/qr01.png",
-                duracao: 15000 // 15 segundos
-            },
-            {
-                id: 2,
-                titulo: "Auto Center Caçapava",
-                descricao: "Revisão completa, troca de óleo e alinhamento com preço especial para motoristas e passageiros.",
-                imagem: "midias/anuncio02.jpg",
-                qr: "midias/qr02.png",
-                duracao: 15000
-            },
-            {
-                id: 3,
-                titulo: "DICA DE SEGURANÇA",
-                descricao: "Lembre-se: O uso do cinto de segurança no banco traseiro é obrigatório e salva vidas!",
-                imagem: "midias/anuncio03.jpg",
-                qr: "",
-                duracao: 15000
-            },
-            {
-                id: 4,
-                titulo: "ANUNCIE AQUI",
-                descricao: "Sua marca vista por milhares de passageiros em Caraguá e no Vale do Paraíba. Toque em ANUNCIE no rodapé.",
-                imagem: "midias/Anuncio01.png"
-                qr: "midias/qr-anuncie.png",
-                duracao: 15000
-            }
-        ];
+    <!-- BALEIA ILUSTRAÇÃO EMBUTIDA -->
+    <div class="baleia-wrap">
+      <svg viewBox="0 0 500 380" preserveAspectRatio="xMidYMid slice">
+        <rect width="500" height="380" fill="#edf7fc"/>
+        <path d="M0 280 Q 120 230 250 290 T 500 250 L 500 380 L 0 380 Z" fill="#7dd3fc" opacity="0.5"/>
+        <path d="M0 310 Q 150 270 300 320 T 500 290 L 500 380 L 0 380 Z" fill="#38bdf8" opacity="0.6"/>
+        <path d="M 80 180 C 160 70, 360 60, 440 130 C 480 165 490 220 420 230 C 320 245 180 250 80 180 Z" fill="#0c4f77"/>
+        <path d="M 440 130 C 470 90 495 80 485 125 C 475 160 450 150 440 130 Z" fill="#0c4f77"/>
+        <path d="M 120 190 C 200 230, 330 235, 410 215 C 330 240, 190 235, 120 190 Z" fill="#6f9fae"/>
+        <circle cx="130" cy="165" r="4" fill="#ffffff"/>
+        <path d="M 200 280 Q 215 275 230 280 Q 215 285 200 280 Z" fill="#0c4f77"/>
+        <path d="M 240 300 Q 255 295 270 300 Q 255 305 240 300 Z" fill="#0c4f77"/>
+      </svg>
+    </div>
 
-        // MENSAGENS ROTATIVAS DO RODAPÉ
-        var MENSAGENS_RODAPE = [
-            "Bem-vindo! Tenha uma excelente viagem.",
-            "Use o cinto de segurança também no banco traseiro.",
-            "Conheça nossos anunciantes locais de Caraguá e Caçapava.",
-            "Quer divulgar sua empresa aqui? Toque no botão ANUNCIE."
-        ];
+    <div class="titulo">Pinturas em parede</div>
+    <div class="faixa">personalizadas</div>
+    <div class="sub">Transforme seus espaços<br>com arte, cor e personalidade!</div>
 
-        // VARIÁVEIS DE CONTROLE DO MOTOR
-        var slideAtual = 0;
-        var tempoTrocaSlide = 15000;
-        var timerSlide = null;
-        var timerWatchdog = null;
-        var ultimaAtualizacaoSlide = new Date().getTime();
+    <section class="servicos" aria-label="Serviços">
+      <div class="servico"><b>♡</b>Quartos infantis</div>
+      <div class="servico"><b>⌂</b>Ambientes residenciais</div>
+      <div class="servico"><b>▦</b>Empresas e comércios</div>
+      <div class="servico"><b>◊</b>Logotipos e identidade visual</div>
+      <div class="servico"><b>✎</b>Murais, lettering e aquarela</div>
+    </section>
 
-        // --------------------------------------------------------------------------
-        // B. INICIALIZAÇÃO DO SISTEMA
-        // --------------------------------------------------------------------------
-        window.onload = function() {
-            iniciarRelocio();
-            montarSlidesDOM();
-            iniciarMotorSlides();
-            iniciarRodapeRotativo();
-            iniciarWatchdog();
+    <!-- FOTOS COM CORTE ORGÂNICO ARTESANAL -->
+    <div class="fotos">
+      <!-- Foto 1: Sol e Ondas -->
+      <div class="card-foto foto1">
+        <div class="card-inner">
+          <svg viewBox="0 0 200 130" width="100%" height="100%" preserveAspectRatio="none">
+            <rect width="200" height="130" fill="#fdf8ef"/>
+            <circle cx="100" cy="45" r="22" fill="#f59e0b"/>
+            <path d="M 0 100 Q 50 70 100 95 T 200 85 L 200 130 L 0 130 Z" fill="#0d9488"/>
+            <path d="M 0 112 Q 60 90 120 110 T 200 100 L 200 130 L 0 130 Z" fill="#ea580c"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Foto 2: Árvore / Botânico -->
+      <div class="card-foto foto2">
+        <div class="card-inner">
+          <svg viewBox="0 0 200 130" width="100%" height="100%" preserveAspectRatio="none">
+            <rect width="200" height="130" fill="#fcf8f2"/>
+            <path d="M 20 130 C 40 80, 80 50, 160 20" stroke="#b45309" stroke-width="6" fill="none"/>
+            <circle cx="70" cy="65" r="12" fill="#047857" opacity="0.8"/>
+            <circle cx="110" cy="45" r="16" fill="#065f46" opacity="0.8"/>
+            <circle cx="140" cy="30" r="10" fill="#047857" opacity="0.8"/>
+            <circle cx="40" cy="90" r="14" fill="#0f766e" opacity="0.8"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Foto 3: Lettering -->
+      <div class="card-foto foto3">
+        <div class="card-inner">
+          <svg viewBox="0 0 200 130" width="100%" height="100%" preserveAspectRatio="none">
+            <rect width="200" height="130" fill="#fefce8"/>
+            <path d="M 10 20 Q 50 5, 90 30 T 180 20 L 190 110 Q 120 125 50 100 Z" fill="#fde68a" opacity="0.6"/>
+            <text x="100" y="45" text-anchor="middle" fill="#0c4f77" font-family="Arial, sans-serif" font-weight="bold" font-size="15">SONHE</text>
+            <text x="100" y="70" text-anchor="middle" fill="#0c4f77" font-family="Arial, sans-serif" font-weight="bold" font-size="15">PLANEJE</text>
+            <text x="100" y="95" text-anchor="middle" fill="#0c4f77" font-family="Arial, sans-serif" font-weight="bold" font-size="15">CONQUISTE</text>
+          </svg>
+        </div>
+      </div>
+    </div>
 
-            // Recursos Online (Opcionais - Se falharem, o sistema continua)
-            buscarClimaOpenMeteo();
-            
-            // Atualiza o clima a cada 20 minutos se houver internet
-            setInterval(function() {
-                buscarClimaOpenMeteo();
-            }, 1200000);
-        };
+    <!-- BOTÃO CTA SVG -->
+    <div class="cta-wrap">
+      <svg viewBox="0 0 260 75" width="100%" height="100%">
+        <path d="M 10 38 C 15 10, 50 8, 130 10 C 210 12, 250 15, 252 38 C 255 62, 215 68, 130 65 C 45 62, 5 60, 10 38 Z" fill="#0c4f77"/>
+        <text x="130" y="36" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold" font-size="15" letter-spacing="1">SOLICITE</text>
+        <text x="130" y="54" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold" font-size="15" letter-spacing="1">SEU ORÇAMENTO</text>
+      </svg>
+    </div>
 
-        // --------------------------------------------------------------------------
-        // C. RELÓGIO E DATA (100% OFFLINE)
-        // --------------------------------------------------------------------------
-        function iniciarRelocio() {
-            function atualizar() {
-                var agora = new Date();
-                var horas = agora.getHours();
-                var minutos = agora.getMinutes();
+    <div class="frase">Cada projeto é único,<br>assim como você!</div>
+    <div class="assinatura">Criativo animado V2 • 15 s</div>
+  </main>
 
-                horas = horas < 10 ? '0' + horas : horas;
-                minutos = minutos < 10 ? '0' + minutos : minutos;
-
-                document.getElementById('txt-relogio').innerHTML = horas + ':' + minutos;
-
-                // Formatar Data em Português
-                var diasSemana = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
-                var meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-
-                var diaSemana = diasSemana[agora.getDay()];
-                var diaNum = agora.getDate();
-                var mes = meses[agora.getMonth()];
-
-                document.getElementById('txt-data').innerHTML = diaSemana + ', ' + diaNum + ' ' + mes;
-            }
-
-            atualizar();
-            setInterval(atualizar, 1000);
-        }
-
-        // --------------------------------------------------------------------------
-        // D. MOTOR DE SLIDES RESISTENTE (100% OFFLINE / MEMÓRIA OTIMIZADA)
-        // --------------------------------------------------------------------------
-        function montarSlidesDOM() {
-            var container = document.getElementById('container-anuncios');
-            var htmlFinal = '';
-
-            for (var i = 0; i < CAMPANHAS.length; i++) {
-                var c = CAMPANHAS[i];
-                var estiloBg = c.imagem ? 'style="background-image: url(\'' + c.imagem + '\');"' : '';
-
-                htmlFinal += '<div class="slide" id="slide-' + i + '" ' + estiloBg + '>';
-                htmlFinal += '  <div class="slide-overlay"></div>';
-                
-                // Conteúdo permanece visível mesmo se a imagem local não existir
-                htmlFinal += '  <div class="slide-conteudo">';
-                htmlFinal += '      <div class="slide-titulo">' + c.titulo + '</div>';
-                htmlFinal += '      <div class="slide-texto">' + c.descricao + '</div>';
-                
-                if (c.qr) {
-                    htmlFinal += '  <div class="slide-qr">';
-                    htmlFinal += '      <img src="' + c.qr + '" alt="QR Code" onerror="this.style.display=\'none\';">';
-                    htmlFinal += '  </div>';
-                }
-                
-                htmlFinal += '  </div>';
-                htmlFinal += '</div>';
-            }
-
-            // Preserva a barra de progresso no HTML
-            var progressoHTML = '<div class="progress-bar-container"><div id="barra-progresso" class="progress-bar"></div></div>';
-            container.innerHTML = htmlFinal + progressoHTML;
-        }
-
-        function iniciarMotorSlides() {
-            exibirSlide(0);
-        }
-
-        function exibirSlide(index) {
-            var total = CAMPANHAS.length;
-            if (index >= total) { index = 0; }
-            if (index < 0) { index = total - 1; }
-
-            // Oculta todos os slides via classe CSS sem destruir nós da memória
-            for (var i = 0; i < total; i++) {
-                var el = document.getElementById('slide-' + i);
-                if (el) {
-                    el.className = 'slide';
-                }
-            }
-
-            // Ativa apenas o slide corrente
-            var slideAtivo = document.getElementById('slide-' + index);
-            if (slideAtivo) {
-                slideAtivo.className = 'slide active';
-            }
-
-            slideAtual = index;
-            ultimaAtualizacaoSlide = new Date().getTime();
-
-            // Animação da barra de progresso
-            animarBarraProgresso(CAMPANHAS[index].duracao);
-
-            // Agenda a próxima troca
-            if (timerSlide) { clearTimeout(timerSlide); }
-            timerSlide = setTimeout(function() {
-                exibirSlide(slideAtual + 1);
-            }, CAMPANHAS[index].duracao);
-        }
-
-        function animarBarraProgresso(duracao) {
-            var barra = document.getElementById('barra-progresso');
-            if (!barra) return;
-
-            /* Reinicia a barra sem usar setInterval a cada 100 ms. */
-            barra.style.webkitTransitionDuration = '0ms';
-            barra.style.transitionDuration = '0ms';
-            barra.style.width = '0%';
-
-            /* Força o navegador a aplicar o estado inicial antes de animar. */
-            barra.offsetWidth;
-
-            barra.style.webkitTransitionDuration = duracao + 'ms';
-            barra.style.transitionDuration = duracao + 'ms';
-            barra.style.width = '100%';
-        }
-
-        // --------------------------------------------------------------------------
-        // E. RECURSO SECUNDÁRIO: CLIMA VIA OPEN-METEO (AJAX ES5)
-        // --------------------------------------------------------------------------
-        function buscarClimaOpenMeteo() {
-            // Coordenadas padrão de Caraguatatuba (-23.6226, -45.4124)
-            var lat = '-23.6226';
-            var lon = '-45.4124';
-            var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true';
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            
-            // Timeout de 3s para NÃO travar nada se estiver sem internet
-            xhr.timeout = 3000;
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        try {
-                            var dados = JSON.parse(xhr.responseText);
-                            var temp = Math.round(dados.current_weather.temperature);
-                            var codigo = dados.current_weather.weathercode;
-                            var descricao = descricaoClima(codigo);
-                            document.getElementById('txt-clima').innerHTML = temp + '°C • ' + descricao;
-                        } catch(e) {
-                            document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
-                        }
-                    } else {
-                        // Fallback em caso de erro na resposta
-                        document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
-                    }
-                }
-            };
-
-            xhr.ontimeout = function() {
-                document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
-            };
-
-            xhr.onerror = function() {
-                document.getElementById('txt-clima').innerHTML = '--°C • Clima indisponível';
-            };
-
-            xhr.send();
-        }
-
-        function descricaoClima(codigo) {
-            if (codigo === 0) return 'Céu limpo';
-            if (codigo >= 1 && codigo <= 3) return 'Parcialmente nublado';
-            if (codigo >= 45 && codigo <= 48) return 'Névoa';
-            if (codigo >= 51 && codigo <= 57) return 'Garoa';
-            if (codigo >= 61 && codigo <= 67) return 'Chuva';
-            if (codigo >= 71 && codigo <= 77) return 'Neve';
-            if (codigo >= 80 && codigo <= 82) return 'Pancadas de chuva';
-            if (codigo >= 85 && codigo <= 86) return 'Pancadas de neve';
-            if (codigo >= 95) return 'Trovoada';
-            return 'Tempo variável';
-        }
-
-        // --------------------------------------------------------------------------
-        // F. RODAPÉ INFORMATIVO ROTATIVO
-        // --------------------------------------------------------------------------
-        function iniciarRodapeRotativo() {
-            var msgIndex = 0;
-            setInterval(function() {
-                msgIndex = (msgIndex + 1) % MENSAGENS_RODAPE.length;
-                var el = document.getElementById('txt-rodape');
-                if (el) {
-                    el.innerHTML = MENSAGENS_RODAPE[msgIndex];
-                }
-            }, 8000);
-        }
-
-        // --------------------------------------------------------------------------
-        // G. CONTROLE DE MODAL E INTERAÇÃO
-        // --------------------------------------------------------------------------
-        function abrirModal() {
-            var modal = document.getElementById('modal-anuncie');
-            if (modal) { modal.style.display = 'block'; }
-        }
-
-        function fecharModal() {
-            var modal = document.getElementById('modal-anuncie');
-            if (modal) { modal.style.display = 'none'; }
-        }
-
-        // --------------------------------------------------------------------------
-        // H. RECURSO DE AUTO-RECUPERAÇÃO (WATCHDOG)
-        // --------------------------------------------------------------------------
-        function iniciarWatchdog() {
-            // Verifica a cada 30 segundos se o motor travou
-            setInterval(function() {
-                var agora = new Date().getTime();
-                var tempoSemTroca = agora - ultimaAtualizacaoSlide;
-
-                // Se passou de 45 segundos sem mudar de slide (limite máximo tolerado)
-                if (tempoSemTroca > 45000) {
-                    exibirSlide(slideAtual + 1);
-                }
-            }, 30000);
-        }
-    </script>
+<script>
+function reiniciar(){
+  const p = document.getElementById('palco');
+  const clone = p.cloneNode(true);
+  p.replaceWith(clone);
+}
+</script>
 </body>
 </html>
